@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1037056308192",
+    "firebase_url": "https://couplegoals-f9610.firebaseio.com",
+    "project_id": "couplegoals-f9610",
+    "storage_bucket": "couplegoals-f9610.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037056308192:android:d09d90c969f3fc31",
+        "android_client_info": {
+          "package_name": "couplegoals.com.couplegoals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037056308192-bjjkl3j0j76jl480d4n6nfpfp08vic87.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "couplegoals.com.couplegoals",
+            "certificate_hash": "0b07f53ea047866ff8d3172fc4ee99bad9fdb708"
+          }
+        },
+        {
+          "client_id": "1037056308192-vqtv9vqb0fbln9of9311aobr326119ai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-XyL9Oqnh1I2SEAGE4A0e9CNYecWPug8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037056308192-vqtv9vqb0fbln9of9311aobr326119ai.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

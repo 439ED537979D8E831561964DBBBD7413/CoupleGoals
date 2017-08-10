@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context="couplegoals.com.couplegoals.activity.AddCoupleDetailsActivity">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:elevation="10dp"
+        android:id="@+id/cardViewText">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/every_love_story_is_beautiful_but_ours_is_my_favorite"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
+    android:elevation="10dp"
+    android:id="@+id/cardViewyourcreditder">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/what_defines_your_togetherness"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etCoupleName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sign_of_togetherness"
+                android:drawableLeft="@drawable/ic_action_couplegroup"/>
+        </LinearLayout>
+        <EditText
+            android:id="@+id/etYourMobileNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Your mobile #"
+            android:inputType="number"
+            android:drawableLeft="@drawable/ic_action_mobile"/>
+        <EditText
+            android:id="@+id/etPartnerNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Partner mobile #"
+            android:inputType="number"
+            android:drawableLeft="@drawable/ic_action_mobile"/>
+        <EditText
+            android:id="@+id/etPartnerEmailId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Partner email id"
+            android:inputType="textEmailAddress"
+            android:drawableLeft="@drawable/ic_action_email"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnUploadCoupleImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Upload photo"
+                android:drawableRight="@drawable/ic_action_uploadimage"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/btSaveCoupleDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save"/>
+        <ImageView
+            android:id="@+id/imageCouple"
+            android:layout_width="match_parent"
+            android:layout_height="172dp"
+            android:layout_marginBottom="5dp"/>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+</LinearLayout>

@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp"
+    android:paddingTop="5dp"
+    tools:context="couplegoals.com.couplegoals.fragments.ViewExpenseFragment">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="2dp"
+        android:elevation="10dp"
+        android:id="@+id/cardViewyourcreditder">
+        <TextView
+            android:id="@+id/textViewTotalExpense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Balance"/>
+    </android.support.v7.widget.CardView>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewCoupleExpense"
+        android:divider="@null">
+    </ListView>
+
+</LinearLayout>
