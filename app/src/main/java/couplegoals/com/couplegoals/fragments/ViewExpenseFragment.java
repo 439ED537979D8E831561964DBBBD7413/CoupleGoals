@@ -52,7 +52,7 @@ public class ViewExpenseFragment extends Fragment {
         databaseReference = DatabaseValues.getExpseDetailReference();
         databaseReference.keepSynced(true);
         final ExpenseListAdapter expenseListAdapter = new ExpenseListAdapter(getActivity(),expenseList);
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()){
@@ -74,7 +74,7 @@ public class ViewExpenseFragment extends Fragment {
                             listViewCoupleExpense.smoothScrollToPosition(0);
                         }
                     });
-                    textViewTotalExpense.setText(Html.fromHtml("Total expense Rs.<b> " + new DecimalFormat("##.##").format(totalExpenseAmount)+"</b>") );
+                    //textViewTotalExpense.setText(Html.fromHtml("Total expense Rs.<b> " + new DecimalFormat("##.##").format(totalExpenseAmount)+"</b>") );
                     listViewCoupleExpense.setAdapter(expenseListAdapter);
                     expenseListAdapter.notifyDataSetChanged();
                 }

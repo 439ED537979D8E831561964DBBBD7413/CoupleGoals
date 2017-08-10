@@ -478,7 +478,7 @@ public class AddExpenseFragment extends Fragment {
                                 + "\"filters\": [{\"field\": \"tag\", \"key\": \"User_Id\", \"relation\": \"=\", \"value\": \"" + send_email + "\"}],"
 
                                 + "\"data\": {\"foo\": \"bar\"},"
-                                + "\"contents\": {\"en\": \"Exp amt. "+sExpenseAmount+" by "+ DatabaseValues.getUserDisplayName()+" \"}"
+                                + "\"contents\": {\"en\": \"Amt. "+sExpenseAmount+" added by "+ DatabaseValues.getUserDisplayName()+" \"}"
                                 + "}";
 
 

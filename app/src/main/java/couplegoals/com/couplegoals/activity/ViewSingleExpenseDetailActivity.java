@@ -41,7 +41,7 @@ public class ViewSingleExpenseDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_single_expense_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        super.setTitle(DatabaseValues.getCOUPLENAME());
+
         Bundle bundleTransactionData = getIntent().getExtras();
         final String sExpenseAmount = bundleTransactionData.getString("expenseAmount");
         final String sExpenseNotes = bundleTransactionData.getString("expenseNotes");
@@ -51,7 +51,7 @@ public class ViewSingleExpenseDetailActivity extends AppCompatActivity {
         final String expenseId = bundleTransactionData.getString("expenseId");
 
 
-
+        super.setTitle(sExpenseNotes);
         textViewAmount = (TextView) findViewById(R.id.textViewAmountSingleView);
         textViewPaidBy = (TextView) findViewById(R.id.textViewExpensePaidBySingleView);
         textViewWhen = (TextView) findViewById(R.id.textViewWhenSingleView);
@@ -59,7 +59,7 @@ public class ViewSingleExpenseDetailActivity extends AppCompatActivity {
         imageViewExpenseSingle = (ImageView) findViewById(R.id.imageViewExpenseSingle);
         btnDeleteExpense = (Button) findViewById(R.id.btnDeleteExpense);
 
-        textViewAmount.setText(Html.fromHtml("Amt.<b>"+sExpenseAmount+"</b>"));
+        textViewAmount.setText(Html.fromHtml("Amt.Rs.<b>"+sExpenseAmount+"</b>"));
         textViewPaidBy.setText(Html.fromHtml("Paid by.<b>"+sExpensePaidBy+"</b>"));
         textViewWhen.setText(Html.fromHtml("When.<b>"+expenseWhen+"</b>"));
         textViewNotes.setText(Html.fromHtml("Notes. <b>"+sExpenseNotes+"</b>"));
