@@ -1,5 +1,6 @@
 package couplegoals.com.couplegoals.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,6 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 
+import couplegoals.com.couplegoals.HomeActivity;
 import couplegoals.com.couplegoals.R;
 import couplegoals.com.couplegoals.database.DatabaseValues;
 import couplegoals.com.couplegoals.fragments.ViewExpenseFragment;
@@ -83,6 +85,8 @@ public class ViewSingleExpenseDetailActivity extends AppCompatActivity {
 
                                     Toast.makeText(ViewSingleExpenseDetailActivity.this,"Deleted",Toast.LENGTH_SHORT)
                                             .show();
+                                    //startActivity(new Intent(ViewSingleExpenseDetailActivity.this, HomeActivity.class));
+                                    finish();
                                 }
                             }
                         }
