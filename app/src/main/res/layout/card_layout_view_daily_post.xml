@@ -6,11 +6,11 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    tools:context=".MainActivity">
+    android:paddingBottom="5dp"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp"
+    android:paddingTop="5dp"
+    tools:context="couplegoals.com.couplegoals.fragments.BaseFragment">
 
 
     <android.support.v7.widget.CardView
@@ -24,39 +24,30 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="221dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:weightSum="1">
 
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="170dp"
-                android:id="@+id/cardImage"
-                android:scaleType="centerCrop"/>
+            <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="170dp"-->
+            <!--android:id="@+id/cardImageTodayPost"-->
+            <!--android:scaleType="centerCrop"/>-->
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:id="@+id/cardTitle"
+                    android:id="@+id/cardMessageToday"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_below="@+id/cardImage"
-                    android:gravity="center_vertical"
-                    android:text="Card Title"
-                    android:layout_weight="1"/>
-
-                <Button
-                    android:id="@+id/book"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/cardTitle"
                     android:layout_weight="1"
-                    android:layout_gravity="right"
-                    android:text="Book"
-                    />
+                    android:gravity="center_vertical"
+                    android:text="Card Title" />
 
 
             </LinearLayout>

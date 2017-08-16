@@ -26,7 +26,10 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -36,8 +39,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import couplegoals.com.couplegoals.R;
+import couplegoals.com.couplegoals.adapter.PostListAdapter;
 import couplegoals.com.couplegoals.database.DatabaseValues;
 import couplegoals.com.couplegoals.model.Post;
 import couplegoals.com.couplegoals.utility.Utility;
@@ -52,7 +59,6 @@ public class BaseFragment extends Fragment {
     private static final int CAMERA_REQUEST = 1888;
     private static final int SELECT_FILE = 2000;
 
-    ListView listViewTodaysPost;
     EditText etTodaysPostMessage;
     Button btnPost;
     ImageButton imageBtnTodayPost;
@@ -61,6 +67,12 @@ public class BaseFragment extends Fragment {
     Uri imageViewTodayPostUri;
 
     String sTodayPostId,sDateToday,sTodaysPostMessage,sTodaysPostImagePath;
+
+    //......VIEW EXPENSES VARIABLES ....................................//
+
+    ListView listViewTodaysPost;
+    DatabaseReference databaseReference;
+    List<Post> postList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,6 +99,7 @@ public class BaseFragment extends Fragment {
                 savePostDetailsToDatabase();
             }
         });
+        loadTodaysPostDetailsFromDb();
         return viewBaseFragment;
     }
 
@@ -308,7 +321,51 @@ public class BaseFragment extends Fragment {
         imageBtnTodayPost = (ImageButton) view.findViewById(R.id.imageBtnTodayPost);
         imageViewTodayPost = (ImageView) view.findViewById(R.id.imageViewTodayPost);
 
+        postList = new ArrayList<>();
+
         sDateToday = Utility.getCurrentDateForUserDisplay();
+    }
+    private void loadTodaysPostDetailsFromDb() {
+        databaseReference = DatabaseValues.getPostDetailReference();
+        databaseReference.keepSynced(true);
+        final PostListAdapter postListAdapter = new PostListAdapter(getActivity(),postList);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChildren()){
+                    postList.clear();
+
+                    for (DataSnapshot  expenseDetailSnapshot : dataSnapshot.getChildren()){
+                        Post postDetails = expenseDetailSnapshot.getValue(Post.class);
+                        if (postDetails.getsCoupleName()!= null){
+                            if (postDetails.getsCoupleName().equalsIgnoreCase(DatabaseValues.getCOUPLENAME())){
+                                postList.add(0, postDetails);
+                                postListAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                    Collections.reverse(postList);
+                    listViewTodaysPost.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listViewTodaysPost.smoothScrollToPosition(0);
+                        }
+                    });
+                    listViewTodaysPost.setAdapter(postListAdapter);
+                    postListAdapter.notifyDataSetChanged();
+                }
+                else {
+                    Toast.makeText(getActivity(),"No post exist",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 }
