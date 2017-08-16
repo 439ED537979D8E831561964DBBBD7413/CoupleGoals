@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -63,7 +64,8 @@ public class AddExpenseFragment extends Fragment {
 
     //.........UI VARIABLE DECLARATION.......................//
 
-    Button btnUploadImage,btSaveExpenseDetails;
+    Button btSaveExpenseDetails;
+    ImageButton btnUploadImage;
     ImageView imageViewExpense;
     EditText etAmount,etNotes;
 
@@ -182,6 +184,7 @@ public class AddExpenseFragment extends Fragment {
     private void resetUiComponents() {
         etAmount.setText("");
         etNotes.setText("");
+        imageViewExpense.setImageResource(android.R.color.transparent);
     }
 
 
@@ -231,7 +234,7 @@ public class AddExpenseFragment extends Fragment {
     * Initialize UI components
     * */
     private void initializeUiComponents(View view){
-        btnUploadImage = (Button) view.findViewById(R.id.btnUploadImage);
+        btnUploadImage = (ImageButton) view.findViewById(R.id.btnUploadImage);
         imageViewExpense = (ImageView) view.findViewById(R.id.imageViewExpense);
         etAmount = (EditText) view.findViewById(R.id.etAmount);
         etNotes = (EditText) view.findViewById(R.id.etNotes);
