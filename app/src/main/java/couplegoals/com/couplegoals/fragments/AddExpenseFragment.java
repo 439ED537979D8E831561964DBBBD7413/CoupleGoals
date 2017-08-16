@@ -174,6 +174,7 @@ public class AddExpenseFragment extends Fragment {
     }
 
     private void processExpenseDataToDb() {
+        sExpenseId = Utility.getUniqueDateTime();
         Expense expense = new Expense(sExpenseId,DatabaseValues.getCOUPLENAME(),sExpenseAmount,sExpenseNotes,DatabaseValues.getUserDisplayName(),sDateToday,sExpenseImageFilePath);
         DatabaseReference databaseReference = DatabaseValues.getExpseDetailReference();
         databaseReference.child(sExpenseId).setValue(expense).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -210,7 +211,7 @@ public class AddExpenseFragment extends Fragment {
 
     private void saveExpenseImageToDatabase() {
         if (imageViewExpenseUri!=null) {
-            final StorageReference filePathCU = DatabaseValues.getStorageReference().child(DatabaseValues.getCOUPLENAME()).child(DatabaseValues.getCOUPLENAME()+"_"+sExpenseId);
+            final StorageReference filePathCU = DatabaseValues.getStorageReference().child(DatabaseValues.getCOUPLENAME()).child(DatabaseValues.getCOUPLENAME()+"_"+Utility.getUniqueDateTime());
             filePathCU.putFile(imageViewExpenseUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -259,7 +260,6 @@ public class AddExpenseFragment extends Fragment {
         etAmount = (EditText) view.findViewById(R.id.etAmount);
         etNotes = (EditText) view.findViewById(R.id.etNotes);
         btSaveExpenseDetails = (Button) view.findViewById(R.id.btSaveExpenseDetails);
-        sExpenseId = Utility.getUniqueDateTime();
         sDateToday = Utility.getCurrentDateForUserDisplay();
         listViewCoupleExpense = (ListView) view.findViewById(R.id.listViewCoupleExpense);
         textViewTotalExpense = (TextView) view.findViewById(R.id.textViewTotalExpense);
