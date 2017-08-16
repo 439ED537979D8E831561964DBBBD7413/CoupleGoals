@@ -57,6 +57,7 @@ public class ViewExpenseFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()){
                     expenseList.clear();
+                    totalExpenseAmount = 0;
                     for (DataSnapshot  expenseDetailSnapshot : dataSnapshot.getChildren()){
                         Expense expenseDetails = expenseDetailSnapshot.getValue(Expense.class);
                         if (expenseDetails.getsCoupleName()!= null){
@@ -74,7 +75,7 @@ public class ViewExpenseFragment extends Fragment {
                             listViewCoupleExpense.smoothScrollToPosition(0);
                         }
                     });
-                    //textViewTotalExpense.setText(Html.fromHtml("Total expense Rs.<b> " + new DecimalFormat("##.##").format(totalExpenseAmount)+"</b>") );
+                    textViewTotalExpense.setText(Html.fromHtml("Total expense Rs.<b> " + new DecimalFormat("##.##").format(totalExpenseAmount)+"</b>") );
                     listViewCoupleExpense.setAdapter(expenseListAdapter);
                     expenseListAdapter.notifyDataSetChanged();
                 }
