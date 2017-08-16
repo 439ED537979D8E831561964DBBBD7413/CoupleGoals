@@ -159,7 +159,7 @@ public class AddExpenseFragment extends Fragment {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(getActivity(),"Added ",Toast.LENGTH_LONG).show();
-                    sendNotification();
+                    //sendNotification();
                     resetUiComponents();
                     fragment = new ViewExpenseFragment();
                     if (fragment !=null){
@@ -233,7 +233,6 @@ public class AddExpenseFragment extends Fragment {
     private void initializeUiComponents(View view){
         btnUploadImage = (Button) view.findViewById(R.id.btnUploadImage);
         imageViewExpense = (ImageView) view.findViewById(R.id.imageViewExpense);
-        Picasso.with(getActivity()).load(DatabaseValues.getProfilePicturePath()).into(imageViewExpense);
         etAmount = (EditText) view.findViewById(R.id.etAmount);
         etNotes = (EditText) view.findViewById(R.id.etNotes);
         btSaveExpenseDetails = (Button) view.findViewById(R.id.btSaveExpenseDetails);

@@ -109,7 +109,7 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
 
                                     Toast.makeText(context,"Deleted",Toast.LENGTH_SHORT)
                                             .show();
-                                    sendNotification(expenseDetails.getsAmount());
+                                    //sendNotification(expenseDetails.getsAmount());
                                 }
                             }
                         }
