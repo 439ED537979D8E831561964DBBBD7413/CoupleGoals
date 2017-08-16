@@ -83,5 +83,24 @@ tools:context="couplegoals.com.couplegoals.fragments.AddExpenseFragment">
             android:adjustViewBounds="true"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:elevation="10dp"
+        android:id="@+id/cardViewyourcreditder1">
+        <TextView
+            android:id="@+id/textViewTotalExpense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Expenses"/>
+    </android.support.v7.widget.CardView>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listViewCoupleExpense">
+        </ListView>
 
 </LinearLayout>

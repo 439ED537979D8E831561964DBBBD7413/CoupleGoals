@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -27,12 +28,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -45,9 +51,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 import couplegoals.com.couplegoals.R;
+import couplegoals.com.couplegoals.adapter.ExpenseListAdapter;
 import couplegoals.com.couplegoals.database.DatabaseValues;
 import couplegoals.com.couplegoals.model.Expense;
 import couplegoals.com.couplegoals.utility.Utility;
@@ -80,6 +91,15 @@ public class AddExpenseFragment extends Fragment {
     //.........VARIABLE DECLARATION FOR FRAGMENTS.......................//
     Fragment fragment;
     FragmentTransaction fragmentTransaction;
+
+    //......VIEW EXPENSES VARIABLES ....................................//
+
+    ListView listViewCoupleExpense;
+    TextView textViewTotalExpense;
+
+    DatabaseReference databaseReference;
+    List<Expense> expenseList;
+    double totalExpenseAmount = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,7 +139,7 @@ public class AddExpenseFragment extends Fragment {
         //..................METHOD TO SET ERROR TO NULL WHEN FOCUS RECEIVED........................//
         setErrorsToNullFocusedReceived();
         //...................END...................................................................//
-
+        loadCoupleExpenseDetailsFromDb();
         return viewAddExpenseFragment;
     }
 
@@ -163,15 +183,15 @@ public class AddExpenseFragment extends Fragment {
                     Toast.makeText(getActivity(),"Added ",Toast.LENGTH_LONG).show();
                     //sendNotification();
                     resetUiComponents();
-                    fragment = new ViewExpenseFragment();
-                    if (fragment !=null){
-                        fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
-                        fragmentTransaction.replace(R.id.content_frame,fragment);
-                        fragmentTransaction.commit();
-                        fragmentTransaction.addToBackStack("base");
-
-                    }
+//                    fragment = new ViewExpenseFragment();
+//                    if (fragment !=null){
+//                        fragmentTransaction = getFragmentManager().beginTransaction();
+//                        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
+//                        fragmentTransaction.replace(R.id.content_frame,fragment);
+//                        fragmentTransaction.commit();
+//                        fragmentTransaction.addToBackStack("base");
+//
+//                    }
 
                 }else {
                     Toast.makeText(getActivity(),"Failed to update " + task.getException().getMessage(),Toast.LENGTH_LONG).show();
@@ -241,9 +261,56 @@ public class AddExpenseFragment extends Fragment {
         btSaveExpenseDetails = (Button) view.findViewById(R.id.btSaveExpenseDetails);
         sExpenseId = Utility.getUniqueDateTime();
         sDateToday = Utility.getCurrentDateForUserDisplay();
+        listViewCoupleExpense = (ListView) view.findViewById(R.id.listViewCoupleExpense);
+        textViewTotalExpense = (TextView) view.findViewById(R.id.textViewTotalExpense);
+        expenseList = new ArrayList<>();
 
         //Add filters for amount
         setFiltersForAmount();
+    }
+    private void loadCoupleExpenseDetailsFromDb() {
+        databaseReference = DatabaseValues.getExpseDetailReference();
+        databaseReference.keepSynced(true);
+        final ExpenseListAdapter expenseListAdapter = new ExpenseListAdapter(getActivity(),expenseList);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChildren()){
+                    expenseList.clear();
+                    totalExpenseAmount = 0;
+                    for (DataSnapshot  expenseDetailSnapshot : dataSnapshot.getChildren()){
+                        Expense expenseDetails = expenseDetailSnapshot.getValue(Expense.class);
+                        if (expenseDetails.getsCoupleName()!= null){
+                            if (expenseDetails.getsCoupleName().equalsIgnoreCase(DatabaseValues.getCOUPLENAME())){
+                                expenseList.add(0, expenseDetails);
+                                expenseListAdapter.notifyDataSetChanged();
+                                totalExpenseAmount = totalExpenseAmount + Double.parseDouble(expenseDetails.getsAmount());
+                            }
+                        }
+                    }
+                    Collections.reverse(expenseList);
+                    listViewCoupleExpense.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listViewCoupleExpense.smoothScrollToPosition(0);
+                        }
+                    });
+                    textViewTotalExpense.setText(Html.fromHtml("Total expense Rs.<b> " + new DecimalFormat("##.##").format(totalExpenseAmount)+"</b>") );
+                    listViewCoupleExpense.setAdapter(expenseListAdapter);
+                    expenseListAdapter.notifyDataSetChanged();
+                }
+                else {
+                    Toast.makeText(getActivity(),"No expense exist",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void setFiltersForAmount() {
