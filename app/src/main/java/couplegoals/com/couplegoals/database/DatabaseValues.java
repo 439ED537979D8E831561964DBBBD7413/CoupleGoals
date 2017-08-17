@@ -76,6 +76,10 @@ public class DatabaseValues {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("PostDetails");
         return databaseReference;
     }
+    public static DatabaseReference getExpensePersonalDetailReference(){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ExpensePersonalDetails");
+        return databaseReference;
+    }
     public static FirebaseAuth getFrirebaseInstance(){
         return FirebaseAuth.getInstance();
     }
