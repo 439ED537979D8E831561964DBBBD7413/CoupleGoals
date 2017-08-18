@@ -134,4 +134,7 @@
     <string name="dates">Dates</string>
     <string name="share">Share</string>
     <string name="send">Send</string>
+    <string name="tripslable">Trips</string>
+    <string name="add_expense_catergories">Add Expense Catergories</string>
+    <string name="add_personal_expenselable">Add personal expense</string>
 </resources>
