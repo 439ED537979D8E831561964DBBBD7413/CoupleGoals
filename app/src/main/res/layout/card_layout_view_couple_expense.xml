@@ -68,8 +68,10 @@
                 android:layout_height="wrap_content"
                 android:text="Notes" />
             <ImageButton
+                android:id="@+id/ibEditExpense"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_edit"
                 android:background="@android:color/transparent"/>
 
         </LinearLayout>

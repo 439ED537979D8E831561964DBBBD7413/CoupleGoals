@@ -128,4 +128,10 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="add_personal_expense">Add personal expense</string>
+    <string name="to_do_list">To do list</string>
+    <string name="expense">Expense</string>
+    <string name="home">Home</string>
+    <string name="dates">Dates</string>
+    <string name="share">Share</string>
+    <string name="send">Send</string>
 </resources>

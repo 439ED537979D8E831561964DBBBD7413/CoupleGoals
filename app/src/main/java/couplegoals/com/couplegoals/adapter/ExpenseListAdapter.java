@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import couplegoals.com.couplegoals.R;
+import couplegoals.com.couplegoals.activity.EditExpenseActivity;
 import couplegoals.com.couplegoals.activity.ViewSingleExpenseDetailActivity;
 import couplegoals.com.couplegoals.database.DatabaseValues;
 import couplegoals.com.couplegoals.model.Expense;
@@ -67,6 +68,7 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
         TextView textViewExpensePaidBy = (TextView) listViewItems.findViewById(R.id.textViewExpensePaidBy);
         CardView cardViewExpenseCardList =(CardView) listViewItems.findViewById(R.id.cardViewExpenseCardList);
         ImageButton ibDeleteExpense = (ImageButton) listViewItems.findViewById(R.id.ibDeleteExpense);
+        ImageButton ibEditExpense = (ImageButton) listViewItems.findViewById(R.id.ibEditExpense);
 
 
         final Expense expenseDetails = expenseDetailsList.get(position);
@@ -123,6 +125,13 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
                     }
                 });
 
+            }
+        });
+        ibEditExpense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentViewEditExpense = new Intent(context.getApplicationContext(), EditExpenseActivity.class);
+                context.startActivity(intentViewEditExpense);
             }
         });
         return listViewItems;

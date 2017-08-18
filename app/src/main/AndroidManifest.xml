@@ -38,7 +38,8 @@
         <activity
             android:name=".activity.ViewSingleExpenseDetailActivity"
             android:label="@string/title_activity_view_single_expense_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.EditExpenseActivity"></activity>
     </application>
 
 </manifest>

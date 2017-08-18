@@ -29,7 +29,9 @@ import org.w3c.dom.Text;
 
 import couplegoals.com.couplegoals.database.DatabaseValues;
 import couplegoals.com.couplegoals.fragments.BaseFragment;
+import couplegoals.com.couplegoals.fragments.DatesFragment;
 import couplegoals.com.couplegoals.fragments.ExpenseFragment;
+import couplegoals.com.couplegoals.fragments.ToDoListFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -128,8 +130,23 @@ public class HomeActivity extends AppCompatActivity
                 fragmentTransaction.replace(R.id.content_frame,fragment);
                 fragmentTransaction.commit();
             }
-        }
-        else if (id == R.id.nav_share) {
+        } else if(id == R.id.nav_todolist){
+            //handle Home page
+            fragment = new ToDoListFragment();
+            if (fragment !=null){
+                fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame,fragment);
+                fragmentTransaction.commit();
+            }
+        } else if(id == R.id.nav_dates){
+            //handle Home page
+            fragment = new DatesFragment();
+            if (fragment !=null){
+                fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame,fragment);
+                fragmentTransaction.commit();
+            }
+        } else if (id == R.id.nav_share) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT, "Couple goals play store link");

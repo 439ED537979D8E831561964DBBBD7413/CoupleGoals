@@ -5,11 +5,19 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_action_home"
-            android:title="Home" />
+            android:title="@string/home" />
         <item
             android:id="@+id/nav_expenses"
             android:icon="@drawable/ic_action_ruppes"
-            android:title="Expense" />
+            android:title="@string/expense" />
+        <item
+            android:id="@+id/nav_todolist"
+            android:icon="@drawable/ic_action_todolist"
+            android:title="@string/to_do_list" />
+        <item
+            android:id="@+id/nav_dates"
+            android:icon="@drawable/ic_action_date"
+            android:title="@string/dates" />
     </group>
 
     <item android:title="Communicate">
@@ -17,11 +25,11 @@
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_action_share"
-                android:title="Share" />
+                android:title="@string/share" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_action_send"
-                android:title="Send" />
+                android:title="@string/send" />
         </menu>
     </item>
 

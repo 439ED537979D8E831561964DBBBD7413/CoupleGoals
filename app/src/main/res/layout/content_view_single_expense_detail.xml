@@ -55,6 +55,13 @@
                 android:background="@color/colorPrimaryDark"
                 android:layout_marginBottom="2dp"
                 android:text="DELETE EXPENSE"/>
+            <Button
+                android:id="@+id/btnEditExpense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:layout_marginBottom="2dp"
+                android:text="EDIT EXPENSE"/>
             <ImageView
                 android:id="@+id/imageViewExpenseSingle"
                 android:layout_width="match_parent"
