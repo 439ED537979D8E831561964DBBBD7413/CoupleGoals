@@ -34,7 +34,7 @@ public class ViewSingleExpenseDetailActivity extends AppCompatActivity {
 
     TextView textViewAmount,textViewPaidBy,textViewWhen,textViewNotes;
     ImageView imageViewExpenseSingle;
-    Button btnDeleteExpense;
+    Button btnDeleteExpense,btnEditExpense;
 
 
     @Override
@@ -60,6 +60,7 @@ public class ViewSingleExpenseDetailActivity extends AppCompatActivity {
         textViewNotes = (TextView) findViewById(R.id.textViewNotesSingleView);
         imageViewExpenseSingle = (ImageView) findViewById(R.id.imageViewExpenseSingle);
         btnDeleteExpense = (Button) findViewById(R.id.btnDeleteExpense);
+        btnEditExpense = (Button) findViewById(R.id.btnEditExpense);
 
         textViewAmount.setText(Html.fromHtml("Amt.Rs.<b>"+sExpenseAmount+"</b>"));
         textViewPaidBy.setText(Html.fromHtml("Paid by.<b>"+sExpensePaidBy+"</b>"));
@@ -100,6 +101,12 @@ public class ViewSingleExpenseDetailActivity extends AppCompatActivity {
                     }
                 });
 
+            }
+        });
+        btnEditExpense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ViewSingleExpenseDetailActivity.this, EditExpenseActivity.class));
             }
         });
     }
