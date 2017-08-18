@@ -182,7 +182,7 @@ public class AddExpenseFragment extends Fragment {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(getActivity(),"Added ",Toast.LENGTH_LONG).show();
-                    //sendNotification();
+                    sendNotification();
                     resetUiComponents();
 //                    fragment = new ViewExpenseFragment();
 //                    if (fragment !=null){

@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.onesignal.OneSignal;
 //import com.onesignal.OneSignal;
 
 import java.io.OutputStream;
@@ -78,10 +79,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 //            startActivity(new Intent(LoginActivity.this,HomeActivity.class) );
 //            finish();
         }
-//        OneSignal.startInit(this)
-//                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
-//                .unsubscribeWhenNotificationsAreDisabled(true)
-//                .init();
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
         //..................REQUEST RUN TIME PERMISSIONS..........................//
         checkRunTimePermission();
 
@@ -192,12 +193,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                     .getsYourEmailId().
                                             equalsIgnoreCase(DatabaseValues.getUserLoginId())
                                     || coupleDetails1.getsPartnerEmailId().equalsIgnoreCase(DatabaseValues.getUserLoginId())){
-                                //OneSignal.sendTag("User_Id",DatabaseValues.getUserLoginId());
+                                OneSignal.sendTag("User_Id",DatabaseValues.getUserLoginId());
                                 DatabaseValues.setCOUPLENAME(coupleDetails1.getsCoupleName());
                                 DatabaseValues.setYOURNAME(coupleDetails1.getsYourEmailId());
                                 DatabaseValues.setPARTNERNAME(coupleDetails1.getsPartnerEmailId());
                                 DatabaseValues.setProfilePicturePath(coupleDetails1.getsCouplePicturePath());
-                                //sendNotification();
+                                sendNotification();
                                 userExist = true;
                                 break;
                             }
