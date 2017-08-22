@@ -174,9 +174,9 @@ public class AddExpenseFragment extends Fragment {
     }
 
     private void processExpenseDataToDb() {
-        sExpenseId = Utility.getUniqueDateTime();
-        Expense expense = new Expense(sExpenseId,DatabaseValues.getCOUPLENAME(),sExpenseAmount,sExpenseNotes,DatabaseValues.getUserDisplayName(),sDateToday,sExpenseImageFilePath);
         DatabaseReference databaseReference = DatabaseValues.getExpseDetailReference();
+        sExpenseId = databaseReference.push().getKey();
+        Expense expense = new Expense(sExpenseId,DatabaseValues.getCOUPLENAME(),sExpenseAmount,sExpenseNotes,DatabaseValues.getUserDisplayName(),sDateToday,sExpenseImageFilePath);
         databaseReference.child(sExpenseId).setValue(expense).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -200,7 +200,7 @@ public class AddExpenseFragment extends Fragment {
 
             }
         });
-
+        databaseReference = null;
     }
     private void resetUiComponents() {
         etAmount.setText("");
@@ -288,7 +288,7 @@ public class AddExpenseFragment extends Fragment {
                             }
                         }
                     }
-                    Collections.reverse(expenseList);
+                    //Collections.reverse(expenseList);
                     listViewCoupleExpense.post(new Runnable() {
                         @Override
                         public void run() {

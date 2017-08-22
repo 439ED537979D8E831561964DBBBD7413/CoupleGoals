@@ -127,9 +127,10 @@ public class BaseFragment extends Fragment {
     }
 
     private void processTodayPostDataToDb() {
-        sTodayPostId = Utility.getUniqueDateTime();
-        Post todayPost = new Post(sTodayPostId,DatabaseValues.getCOUPLENAME(),sTodaysPostMessage,DatabaseValues.getUserDisplayName(),sDateToday,sTodaysPostImagePath);
         DatabaseReference databaseReference = DatabaseValues.getPostDetailReference();
+        sTodayPostId = databaseReference.push().getKey();
+        Post todayPost = new Post(sTodayPostId,DatabaseValues.getCOUPLENAME(),sTodaysPostMessage,DatabaseValues.getUserDisplayName(),sDateToday,sTodaysPostImagePath);
+
         databaseReference.child(sTodayPostId).setValue(todayPost).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -143,7 +144,7 @@ public class BaseFragment extends Fragment {
 
             }
         });
-
+        databaseReference = null;
     }
     private void resetUiComponents() {
         etTodaysPostMessage.setText("");
@@ -344,7 +345,7 @@ public class BaseFragment extends Fragment {
                             }
                         }
                     }
-                    Collections.reverse(postList);
+                    //Collections.reverse(postList);
                     listViewTodaysPost.post(new Runnable() {
                         @Override
                         public void run() {

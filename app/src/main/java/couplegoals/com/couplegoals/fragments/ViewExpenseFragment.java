@@ -166,7 +166,7 @@ public class ViewExpenseFragment extends Fragment {
                             }
                         }
                     }
-                    Collections.reverse(expenseList);
+                    //Collections.reverse(expenseList);
                     listViewCoupleExpense.post(new Runnable() {
                         @Override
                         public void run() {

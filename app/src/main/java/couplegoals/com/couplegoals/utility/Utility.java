@@ -100,7 +100,7 @@ public class Utility {
     public static String getUniqueDateTime(){
 
         String sDate;
-        Calendar c = Calendar.getInstance();;
+        Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.getActualMaximum(Calendar.DAY_OF_MONTH);
