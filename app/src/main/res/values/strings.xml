@@ -137,4 +137,9 @@
     <string name="tripslable">Trips</string>
     <string name="add_expense_catergories">Add Expense Catergories</string>
     <string name="add_personal_expenselable">Add personal expense</string>
+    <string name="add_couple_expense">Add couple expense</string>
+    <string name="view_couple_expense">View couple expense</string>
+    <string name="add_expense_category">Add expense category</string>
+    <string name="category_name">Category name</string>
+    <string name="expense_categories">Expense Categories</string>
 </resources>

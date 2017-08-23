@@ -15,7 +15,7 @@ import couplegoals.com.couplegoals.R;
 
 public class ExpenseFragment extends Fragment {
 
-    CardView cardViewAddExpense,cardViewViewExpense,cardPersonelExpense;
+    CardView cardViewAddExpense,cardViewViewExpense,cardPersonelExpense,cardExpenseCategories;
     Fragment fragment;
     FragmentTransaction fragmentTransaction;
 
@@ -62,6 +62,22 @@ public class ExpenseFragment extends Fragment {
             public void onClick(View v) {
                 //Setting the personal fragment
                 fragment = new PersonalExpenseFragment();
+                if (fragment !=null){
+                    fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
+                    fragmentTransaction.replace(R.id.content_frame,fragment);
+                    fragmentTransaction.commit();
+                    fragmentTransaction.addToBackStack("base");
+
+                }
+            }
+        });
+        cardExpenseCategories = (CardView) view.findViewById(R.id.cardExpenseCategories);
+        cardExpenseCategories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Setting the personal fragment
+                fragment = new AddExpenseCategoriesFragment();
                 if (fragment !=null){
                     fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
