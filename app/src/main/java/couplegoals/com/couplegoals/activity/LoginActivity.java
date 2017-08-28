@@ -40,11 +40,15 @@ import com.onesignal.OneSignal;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import couplegoals.com.couplegoals.HomeActivity;
 import couplegoals.com.couplegoals.R;
+import couplegoals.com.couplegoals.adapter.CategoryListAdapter;
 import couplegoals.com.couplegoals.database.DatabaseValues;
+import couplegoals.com.couplegoals.model.Category;
 import couplegoals.com.couplegoals.model.CoupleDetails;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -63,6 +67,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     //.........VARIABLE RELATED TO PERSISTENCE.........//
     static boolean calledAlready = false;
+
+    DatabaseReference databaseReference;
+    List<Category> categoryList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,6 +206,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 DatabaseValues.setYOURNAME(coupleDetails1.getsYourEmailId());
                                 DatabaseValues.setPARTNERNAME(coupleDetails1.getsPartnerEmailId());
                                 DatabaseValues.setProfilePicturePath(coupleDetails1.getsCouplePicturePath());
+                                loadCategoriesFromDb();
                                 sendNotification();
                                 userExist = true;
                                 break;
@@ -229,6 +238,41 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
     }
+
+    private void loadCategoriesFromDb() {
+        categoryList = new ArrayList<>();
+        databaseReference = DatabaseValues.getCategoryReference();
+        databaseReference.keepSynced(true);
+        final CategoryListAdapter categoryListAdapter = new CategoryListAdapter(LoginActivity.this,categoryList);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChildren()){
+                    categoryList.clear();
+                    for (DataSnapshot  expenseDetailSnapshot : dataSnapshot.getChildren()){
+                        Category categoryDetails = expenseDetailSnapshot.getValue(Category.class);
+                        if (categoryDetails.getsCoupleName()!= null){
+                            if (categoryDetails.getsCoupleName().equalsIgnoreCase(DatabaseValues.getCOUPLENAME())){
+                                categoryList.add(0, categoryDetails);
+                                categoryListAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                    categoryListAdapter.notifyDataSetChanged();
+                }
+                else {
+                }
+            DatabaseValues.setCategoryList(categoryList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     private void checkRunTimePermission() {
         String[] permissionArrays = new String[]{Manifest.permission.READ_CONTACTS,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA,Manifest.permission.SEND_SMS};
 

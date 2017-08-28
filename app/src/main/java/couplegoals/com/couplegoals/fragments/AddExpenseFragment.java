@@ -24,11 +24,13 @@ import android.text.method.DigitsKeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +43,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,13 +54,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 import couplegoals.com.couplegoals.R;
 import couplegoals.com.couplegoals.adapter.ExpenseListAdapter;
 import couplegoals.com.couplegoals.database.DatabaseValues;
+import couplegoals.com.couplegoals.model.Category;
 import couplegoals.com.couplegoals.model.Expense;
 import couplegoals.com.couplegoals.utility.Utility;
 
@@ -79,13 +80,14 @@ public class AddExpenseFragment extends Fragment {
     ImageButton btnUploadImage;
     ImageView imageViewExpense;
     EditText etAmount,etNotes;
+    Spinner spExpenseCategory;
 
     //.........VARIABLE DECLARATION.......................//
 
     String sExpenseAmount,
             sExpenseNotes,
             sExpenseImageFilePath,
-            sExpenseId,sDateToday;
+            sExpenseId,sDateToday,sExpenseCategory;
     Uri imageViewExpenseUri;
 
     //.........VARIABLE DECLARATION FOR FRAGMENTS.......................//
@@ -100,6 +102,8 @@ public class AddExpenseFragment extends Fragment {
     DatabaseReference databaseReference;
     List<Expense> expenseList;
     double totalExpenseAmount = 0;
+
+    ArrayAdapter<String> adapterCategories;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -176,7 +180,7 @@ public class AddExpenseFragment extends Fragment {
     private void processExpenseDataToDb() {
         DatabaseReference databaseReference = DatabaseValues.getExpseDetailReference();
         sExpenseId = databaseReference.push().getKey();
-        Expense expense = new Expense(sExpenseId,DatabaseValues.getCOUPLENAME(),sExpenseAmount,sExpenseNotes,DatabaseValues.getUserDisplayName(),sDateToday,sExpenseImageFilePath);
+        Expense expense = new Expense(sExpenseId,DatabaseValues.getCOUPLENAME(),sExpenseAmount,sExpenseNotes,DatabaseValues.getUserDisplayName(),sDateToday,sExpenseImageFilePath,sExpenseCategory);
         databaseReference.child(sExpenseId).setValue(expense).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -233,6 +237,7 @@ public class AddExpenseFragment extends Fragment {
         if (sExpenseNotes.isEmpty() || sExpenseNotes.equalsIgnoreCase(null)){
             sExpenseNotes = getString(R.string.No_notes_label);
         }
+        sExpenseCategory = spExpenseCategory.getSelectedItem().toString();
     }
 
     private boolean validateUserEnterData() {
@@ -265,6 +270,16 @@ public class AddExpenseFragment extends Fragment {
         textViewTotalExpense = (TextView) view.findViewById(R.id.textViewTotalExpense);
         expenseList = new ArrayList<>();
 
+        List<String> categoryName = new ArrayList<>();
+
+        for (int i = 0;i< DatabaseValues.getCategoryList().size();i++){
+            categoryName.add(0,DatabaseValues.getCategoryList().get(i).getsCategoryName());
+        }
+        categoryName.add(0,getString(R.string.defaultcategory));
+        adapterCategories = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,categoryName);
+        spExpenseCategory = (Spinner) view.findViewById(R.id.spExpenseCategory);
+
+        spExpenseCategory.setAdapter(adapterCategories);
         //Add filters for amount
         setFiltersForAmount();
     }

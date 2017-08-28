@@ -6,6 +6,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.List;
+
+import couplegoals.com.couplegoals.model.Category;
+
 /**
  * Created by Brijesh on 8/7/2017.
  */
@@ -16,7 +20,15 @@ public class DatabaseValues {
     public static String YOURNAME;
     public static String PARTNERNAME;
     public static String PROFILE_PICTURE_PATH;
+    public static List<Category> CATEGORY_LIST;
 
+    public static List<Category> getCategoryList() {
+        return CATEGORY_LIST;
+    }
+
+    public static void setCategoryList(List<Category> categoryList) {
+        CATEGORY_LIST = categoryList;
+    }
     public static String getCOUPLENAME() {
         return COUPLENAME;
     }
@@ -78,6 +90,10 @@ public class DatabaseValues {
     }
     public static DatabaseReference getExpensePersonalDetailReference(){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ExpensePersonalDetails");
+        return databaseReference;
+    }
+    public static DatabaseReference getCategoryReference(){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Category");
         return databaseReference;
     }
     public static FirebaseAuth getFrirebaseInstance(){

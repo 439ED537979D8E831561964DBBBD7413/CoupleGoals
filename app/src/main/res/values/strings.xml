@@ -142,4 +142,8 @@
     <string name="add_expense_category">Add expense category</string>
     <string name="category_name">Category name</string>
     <string name="expense_categories">Expense Categories</string>
+    <string name="categoryerror">Category name is required</string>
+    <string name="categoryname">Category name</string>
+    <string name="defaultcategory">Others</string>
+    <string name="select_category">Select category</string>
 </resources>
