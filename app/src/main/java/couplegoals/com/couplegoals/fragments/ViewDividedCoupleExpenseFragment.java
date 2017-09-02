@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,7 +24,7 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
     private static final String[] DATE_SELECTION_TYPE = new String[]{"All","Today","Current Month"};
 
     TextView expenseSummary,tvPaidNyOneTotal,tvPaidByTwoTotal,tvDifference;
-
+    Button btnViewExpense;
     ListView listViewPaidByOne,listViewPaidByTwo;
 
     
@@ -48,6 +49,7 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
         tvPaidByTwoTotal = (TextView) viewDividedCoupleExpenseFragment.findViewById(R.id.tvPaidByTwoTotal);
         expenseSummary = (TextView) viewDividedCoupleExpenseFragment.findViewById(R.id.expenseSummary);
         tvDifference = (TextView) viewDividedCoupleExpenseFragment.findViewById(R.id.tvDifference);
+        btnViewExpense = (Button) viewDividedCoupleExpenseFragment.findViewById(R.id.btnViewExpense);
         listViewPaidByOne = (ListView) viewDividedCoupleExpenseFragment.findViewById(R.id.listViewPaidByOne);
         listViewPaidByTwo = (ListView) viewDividedCoupleExpenseFragment.findViewById(R.id.listViewPaidByTwo);
 

@@ -146,4 +146,6 @@
     <string name="categoryname">Category name</string>
     <string name="defaultcategory">Others</string>
     <string name="select_category">Select category</string>
+    <string name="view_expense">View expense</string>
+    <string name="date_range">Date range</string>
 </resources>
