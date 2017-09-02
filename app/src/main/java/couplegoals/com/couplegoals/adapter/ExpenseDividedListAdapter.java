@@ -60,81 +60,81 @@ public class ExpenseDividedListAdapter extends ArrayAdapter<Expense> {
         final View listViewItems = layoutInflater.inflate(R.layout.card_layout_view_couple_expense_divided,null,true);
 
         TextView textViewExpenseAmount = (TextView) listViewItems.findViewById(R.id.textViewExpenseAmount);
-        TextView textViewExpenseNotes = (TextView) listViewItems.findViewById(R.id.textViewExpenseNotes);
+        //TextView textViewExpenseNotes = (TextView) listViewItems.findViewById(R.id.textViewExpenseNotes);
         TextView textViewExpenseDate = (TextView) listViewItems.findViewById(R.id.textViewExpenseDate);
-        TextView textViewExpensePaidBy = (TextView) listViewItems.findViewById(R.id.textViewExpensePaidBy);
-        CardView cardViewExpenseCardList =(CardView) listViewItems.findViewById(R.id.cardViewExpenseCardList);
-        ImageButton ibDeleteExpense = (ImageButton) listViewItems.findViewById(R.id.ibDeleteExpense);
-        ImageButton ibEditExpense = (ImageButton) listViewItems.findViewById(R.id.ibEditExpense);
-        ImageButton ibInfoExpense = (ImageButton) listViewItems.findViewById(R.id.ibInfoExpense);
-        ImageButton ibShareExpense = (ImageButton) listViewItems.findViewById(R.id.ibShareExpense);
+        //TextView textViewExpensePaidBy = (TextView) listViewItems.findViewById(R.id.textViewExpensePaidBy);
+//        CardView cardViewExpenseCardList =(CardView) listViewItems.findViewById(R.id.cardViewExpenseCardList);
+//        ImageButton ibDeleteExpense = (ImageButton) listViewItems.findViewById(R.id.ibDeleteExpense);
+//        ImageButton ibEditExpense = (ImageButton) listViewItems.findViewById(R.id.ibEditExpense);
+//        ImageButton ibInfoExpense = (ImageButton) listViewItems.findViewById(R.id.ibInfoExpense);
+//        ImageButton ibShareExpense = (ImageButton) listViewItems.findViewById(R.id.ibShareExpense);
 
 
         expenseDetails = expenseDetailsList.get(position);
         textViewExpenseAmount.setText(Html.fromHtml("Rs.<b>" + expenseDetails.getsAmount()+"</b>"));
-        textViewExpenseNotes.setText(Html.fromHtml("Notes.<b>"+expenseDetails.getsNotes()+"</b>"));
+        //textViewExpenseNotes.setText(Html.fromHtml("Notes.<b>"+expenseDetails.getsNotes()+"</b>"));
         textViewExpenseDate.setText(Html.fromHtml("On.<b>"+expenseDetails.getsWhen()+"</b>"));
-        textViewExpensePaidBy.setText(Html.fromHtml("Paid by : <b>" + expenseDetails.getsPaidBy()+"</b>"));
+        //textViewExpensePaidBy.setText(Html.fromHtml("Paid by : <b>" + expenseDetails.getsPaidBy()+"</b>"));
 
-        cardViewExpenseCardList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayExpenseDetailsinSingleActivity();
-            }
-        });
-        ibDeleteExpense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final DatabaseReference databaseReferenceDeleteExpense = DatabaseValues.getExpseDetailReference();
-
-                final Query queryDeleteExpense = databaseReferenceDeleteExpense.orderByChild("sExpenseId").equalTo(expenseDetails.getsExpenseId());
-                queryDeleteExpense.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        for (DataSnapshot  expenseDetailSnapshot : dataSnapshot.getChildren()){
-                            Expense expenseDetails = expenseDetailSnapshot.getValue(Expense.class);
-                            if (expenseDetails.getsCoupleName()!= null){
-                                if (expenseDetails.getsCoupleName().equalsIgnoreCase(DatabaseValues.getCOUPLENAME())){
-                                    databaseReferenceDeleteExpense.child(expenseDetails.getsExpenseId()).removeValue();
-
-                                    Toast.makeText(context,"Deleted",Toast.LENGTH_SHORT)
-                                            .show();
-                                    sendNotification(expenseDetails.getsAmount());
-                                }
-                            }
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-            }
-        });
-        ibEditExpense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentViewEditExpense = new Intent(context.getApplicationContext(), EditExpenseActivity.class);
-                context.startActivity(intentViewEditExpense);
-            }
-        });
-        ibInfoExpense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                displayExpenseDetailsinSingleActivity();
-            }
-        });
-        ibShareExpense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                shareExpenseDetails();
-            }
-        });
+//        cardViewExpenseCardList.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                displayExpenseDetailsinSingleActivity();
+//            }
+//        });
+//        ibDeleteExpense.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final DatabaseReference databaseReferenceDeleteExpense = DatabaseValues.getExpseDetailReference();
+//
+//                final Query queryDeleteExpense = databaseReferenceDeleteExpense.orderByChild("sExpenseId").equalTo(expenseDetails.getsExpenseId());
+//                queryDeleteExpense.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                        for (DataSnapshot  expenseDetailSnapshot : dataSnapshot.getChildren()){
+//                            Expense expenseDetails = expenseDetailSnapshot.getValue(Expense.class);
+//                            if (expenseDetails.getsCoupleName()!= null){
+//                                if (expenseDetails.getsCoupleName().equalsIgnoreCase(DatabaseValues.getCOUPLENAME())){
+//                                    databaseReferenceDeleteExpense.child(expenseDetails.getsExpenseId()).removeValue();
+//
+//                                    Toast.makeText(context,"Deleted",Toast.LENGTH_SHORT)
+//                                            .show();
+//                                    sendNotification(expenseDetails.getsAmount());
+//                                }
+//                            }
+//                        }
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//
+//                    }
+//                });
+//
+//            }
+//        });
+//        ibEditExpense.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intentViewEditExpense = new Intent(context.getApplicationContext(), EditExpenseActivity.class);
+//                context.startActivity(intentViewEditExpense);
+//            }
+//        });
+//        ibInfoExpense.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                displayExpenseDetailsinSingleActivity();
+//            }
+//        });
+//        ibShareExpense.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                shareExpenseDetails();
+//            }
+//        });
         return listViewItems;
     }
 
