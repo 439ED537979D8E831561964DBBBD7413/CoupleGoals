@@ -9,6 +9,7 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import couplegoals.com.couplegoals.R;
 
@@ -18,6 +19,7 @@ public class ExpenseFragment extends Fragment {
     CardView cardViewAddExpense,cardViewViewExpense,cardPersonelExpense,cardExpenseCategories;
     Fragment fragment;
     FragmentTransaction fragmentTransaction;
+    Button btnViewDivided;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,6 +80,22 @@ public class ExpenseFragment extends Fragment {
             public void onClick(View view) {
                 //Setting the personal fragment
                 fragment = new AddExpenseCategoriesFragment();
+                if (fragment !=null){
+                    fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
+                    fragmentTransaction.replace(R.id.content_frame,fragment);
+                    fragmentTransaction.commit();
+                    fragmentTransaction.addToBackStack("base");
+
+                }
+            }
+        });
+        btnViewDivided = (Button) view.findViewById(R.id.btnViewDivided);
+        btnViewDivided.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Setting the personal fragment
+                fragment = new ViewDividedCoupleExpenseFragment();
                 if (fragment !=null){
                     fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
