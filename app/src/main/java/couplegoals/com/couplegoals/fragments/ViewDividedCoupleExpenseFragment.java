@@ -29,6 +29,7 @@ import couplegoals.com.couplegoals.adapter.ExpenseDividedListAdapter;
 import couplegoals.com.couplegoals.adapter.ExpenseListAdapter;
 import couplegoals.com.couplegoals.database.DatabaseValues;
 import couplegoals.com.couplegoals.model.Expense;
+import couplegoals.com.couplegoals.utility.Utility;
 
 public class ViewDividedCoupleExpenseFragment extends Fragment {
 
@@ -36,7 +37,7 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
 
     Spinner spinnerSelectDateRange;
     ArrayAdapter<String> adapterSelectedDateRange;
-    private static final String[] DATE_SELECTION_TYPE = new String[]{"All","Today","Current Month"};
+    private static final String[] DATE_SELECTION_TYPE = new String[]{"All","Today","Current Month","Previous Month"};
 
     TextView expenseSummary,tvPaidNyOneTotal,tvPaidByTwoTotal,tvDifference;
     Button btnViewExpense;
@@ -47,6 +48,8 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
     List<Expense> expenseListPaidByTwo;
     double totalExpenseAmountOne = 0,totalExpenseAmountTwo = 0;
     double totalDifference = 0;
+
+    String sUserSelectedDateRange;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,11 +62,28 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
         btnViewExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sUserSelectedDateRange = spinnerSelectDateRange.getSelectedItem().toString().trim();
+                setExpenseSummary();
                 loadCoupleExpenseDetailsFromDbforOne();
                 loadCoupleExpenseDetailsFromDbforTwo();
             }
         });
         return ViewDividedCoupleExpenseFragment;
+    }
+
+    private void setExpenseSummary() {
+        if (sUserSelectedDateRange.equalsIgnoreCase("All")){
+            expenseSummary.setText("Expense details : All");
+        }
+        else if(sUserSelectedDateRange.equalsIgnoreCase("Today")){
+            expenseSummary.setText("Expense details :" + Utility.getCurrentDateForUserDisplay());
+        }
+        else if(sUserSelectedDateRange.equalsIgnoreCase("Current Month")){
+            expenseSummary.setText("Expense details :" + Utility.getCurrentMonthYear());
+        }
+        else if(sUserSelectedDateRange.equalsIgnoreCase("Previous Month")){
+            expenseSummary.setText("Expense details :" + Utility.getPreviousMonthYear());
+        }
     }
 
     private void loadCoupleExpenseDetailsFromDbforTwo() {
@@ -81,9 +101,35 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
                         if (expenseDetails.getsCoupleName()!= null){
                             if (expenseDetails.getsCoupleName().equalsIgnoreCase(DatabaseValues.getCOUPLENAME())){
                                 if (!expenseDetails.getsPaidBy().equalsIgnoreCase(DatabaseValues.getUserDisplayName())){
-                                    expenseListPaidByTwo.add(0, expenseDetails);
-                                    expenseListAdapter.notifyDataSetChanged();
-                                    totalExpenseAmountTwo = totalExpenseAmountTwo + Double.parseDouble(expenseDetails.getsAmount());
+                                    if (sUserSelectedDateRange.equalsIgnoreCase(getString(R.string.all)))
+                                    {
+                                        expenseListPaidByTwo.add(0, expenseDetails);
+                                        expenseListAdapter.notifyDataSetChanged();
+                                        totalExpenseAmountTwo = totalExpenseAmountTwo + Double.parseDouble(expenseDetails.getsAmount());
+
+                                    }
+                                    else if (sUserSelectedDateRange.equalsIgnoreCase("Today")){
+                                        if (expenseDetails.getsWhen().equalsIgnoreCase(Utility.getCurrentDateForUserDisplay())){
+                                            expenseListPaidByTwo.add(0, expenseDetails);
+                                            expenseListAdapter.notifyDataSetChanged();
+                                            totalExpenseAmountTwo = totalExpenseAmountTwo + Double.parseDouble(expenseDetails.getsAmount());
+                                        }
+                                    }
+                                    else if (sUserSelectedDateRange.equalsIgnoreCase("Current Month")){
+                                        if (expenseDetails.getsWhen().contains(Utility.getCurrentMonthYear())){
+                                            expenseListPaidByTwo.add(0, expenseDetails);
+                                            expenseListAdapter.notifyDataSetChanged();
+                                            totalExpenseAmountTwo = totalExpenseAmountTwo + Double.parseDouble(expenseDetails.getsAmount());
+                                        }
+
+                                    }
+                                    else if (sUserSelectedDateRange.equalsIgnoreCase("Previous Month")){
+                                        if (expenseDetails.getsWhen().contains(Utility.getPreviousMonthYear())){
+                                            expenseListPaidByTwo.add(0, expenseDetails);
+                                            expenseListAdapter.notifyDataSetChanged();
+                                            totalExpenseAmountTwo = totalExpenseAmountTwo + Double.parseDouble(expenseDetails.getsAmount());
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -95,14 +141,15 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
                             listViewPaidByTwo.smoothScrollToPosition(0);
                         }
                     });
-                    tvPaidByTwoTotal.setText(Html.fromHtml("Total expense Rs.<b> " + new DecimalFormat("##.##").format(totalExpenseAmountTwo)+"</b>") );
+                    tvPaidByTwoTotal.setVisibility(View.VISIBLE);
+                    tvPaidByTwoTotal.setText(Html.fromHtml("Total (PARTNER) Rs.<b> " + new DecimalFormat("##.##").format(totalExpenseAmountTwo)+"</b>") );
                     if (totalExpenseAmountTwo>totalExpenseAmountOne){
                         totalDifference = totalExpenseAmountTwo -totalExpenseAmountOne;
                     } else {
                         totalDifference = totalExpenseAmountOne -totalExpenseAmountTwo;
                     }
-
-                    tvDifference.setText(Html.fromHtml("Total expense Rs.<b> " + new DecimalFormat("##.##").format(totalDifference)+"</b>") );
+                    tvDifference.setVisibility(View.VISIBLE);
+                    tvDifference.setText(Html.fromHtml("Difference Rs.<b> " + new DecimalFormat("##.##").format(totalDifference)+"</b>") );
                     listViewPaidByTwo.setAdapter(expenseListAdapter);
                     expenseListAdapter.notifyDataSetChanged();
                 }
@@ -137,9 +184,34 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
                         if (expenseDetails.getsCoupleName()!= null){
                             if (expenseDetails.getsCoupleName().equalsIgnoreCase(DatabaseValues.getCOUPLENAME())){
                                 if (expenseDetails.getsPaidBy().equalsIgnoreCase(DatabaseValues.getUserDisplayName())){
-                                    expenseListPaidByOne.add(0, expenseDetails);
-                                    expenseListAdapter.notifyDataSetChanged();
-                                    totalExpenseAmountOne = totalExpenseAmountOne + Double.parseDouble(expenseDetails.getsAmount());
+                                    if (sUserSelectedDateRange.equalsIgnoreCase(getString(R.string.all)))
+                                    {
+                                        expenseListPaidByOne.add(0, expenseDetails);
+                                        expenseListAdapter.notifyDataSetChanged();
+                                        totalExpenseAmountOne = totalExpenseAmountOne + Double.parseDouble(expenseDetails.getsAmount());
+                                    }
+                                    else if(sUserSelectedDateRange.equalsIgnoreCase("Today")){
+                                        if (expenseDetails.getsWhen().equalsIgnoreCase(Utility.getCurrentDateForUserDisplay())){
+                                            expenseListPaidByOne.add(0, expenseDetails);
+                                            expenseListAdapter.notifyDataSetChanged();
+                                            totalExpenseAmountOne = totalExpenseAmountOne + Double.parseDouble(expenseDetails.getsAmount());
+                                        }
+                                    }
+                                    else if(sUserSelectedDateRange.equalsIgnoreCase("Current Month")){
+                                        if (expenseDetails.getsWhen().contains(Utility.getCurrentMonthYear())){
+                                            expenseListPaidByOne.add(0, expenseDetails);
+                                            expenseListAdapter.notifyDataSetChanged();
+                                            totalExpenseAmountOne = totalExpenseAmountOne + Double.parseDouble(expenseDetails.getsAmount());
+                                        }
+                                    }
+                                    else if (sUserSelectedDateRange.equalsIgnoreCase("Previous Month")){
+                                        if (expenseDetails.getsWhen().contains(Utility.getPreviousMonthYear())){
+                                            expenseListPaidByOne.add(0, expenseDetails);
+                                            expenseListAdapter.notifyDataSetChanged();
+                                            totalExpenseAmountOne = totalExpenseAmountOne + Double.parseDouble(expenseDetails.getsAmount());
+                                        }
+                                    }
+
                                 }
                             }
                         }
@@ -151,7 +223,8 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
                             listViewPaidByOne.smoothScrollToPosition(0);
                         }
                     });
-                    tvPaidNyOneTotal.setText(Html.fromHtml("Total expense Rs.<b> " + new DecimalFormat("##.##").format(totalExpenseAmountOne)+"</b>") );
+                    tvPaidNyOneTotal.setVisibility(View.VISIBLE);
+                    tvPaidNyOneTotal.setText(Html.fromHtml("Total (YOU) Rs.<b> " + new DecimalFormat("##.##").format(totalExpenseAmountOne)+"</b>") );
                     listViewPaidByOne.setAdapter(expenseListAdapter);
                     expenseListAdapter.notifyDataSetChanged();
                 }

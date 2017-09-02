@@ -128,5 +128,40 @@ public class Utility {
         sDate = String.valueOf(day)+"-"+monthString + "-" + String.valueOf(year);
         return sDate;
     }
+    public static String getCurrentMonthYear(){
+
+        String sDate;
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        String monthString = "wrong";
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        String[] monthsArray = dfs.getMonths();
+        if (month >= 0 && month <= 11 ) {
+            monthString = monthsArray[month];
+        }
+        sDate = monthString + "-" + String.valueOf(year);
+        return sDate;
+    }
+    public static String getPreviousMonthYear(){
+
+        String sDate;
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        month= month-1;
+        String monthString = "wrong";
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        String[] monthsArray = dfs.getMonths();
+        if (month >= 0 && month <= 11 ) {
+            monthString = monthsArray[month];
+        }
+        sDate = monthString + "-" + String.valueOf(year);
+        return sDate;
+    }
 
 }

@@ -39,8 +39,7 @@
         android:id="@+id/expenseSummary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="Expense details "/>
+        android:textStyle="bold"/>
     <LinearLayout
         android:id="@+id/LinearLayout01"
         android:layout_height="wrap_content"
@@ -50,14 +49,16 @@
             android:id="@+id/tvPaidNyOneTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" android:text="Paid by one">
+            android:layout_weight="1" android:text="Paid by one"
+            android:visibility="invisible">
         </TextView>
         <TextView
             android:id="@+id/tvPaidByTwoTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Paid by two">
+            android:text="Paid by two"
+            android:visibility="invisible">
         </TextView>
     </LinearLayout>
     <TextView
@@ -65,7 +66,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
         android:text="difference"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:visibility="invisible"/>
     <LinearLayout
         android:id="@+id/LinearLayout02"
         android:layout_height="wrap_content"
