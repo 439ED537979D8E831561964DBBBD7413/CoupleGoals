@@ -8,6 +8,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -39,8 +40,7 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
     ArrayAdapter<String> adapterSelectedDateRange;
     private static final String[] DATE_SELECTION_TYPE = new String[]{"All","Today","Current Month","Previous Month"};
 
-    TextView expenseSummary,tvPaidNyOneTotal,tvPaidByTwoTotal,tvDifference;
-    Button btnViewExpense;
+    TextView expenseSummary,tvPaidNyOneTotal,tvPaidByTwoTotal,tvDifference,tvToBePaid;
     ListView listViewPaidByOne,listViewPaidByTwo;
 
     DatabaseReference databaseReference;
@@ -48,6 +48,8 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
     List<Expense> expenseListPaidByTwo;
     double totalExpenseAmountOne = 0,totalExpenseAmountTwo = 0;
     double totalDifference = 0;
+    double totalToBePaid = 0;
+    double dividebyTwo = 2;
 
     String sUserSelectedDateRange;
     
@@ -58,14 +60,19 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
         // Inflate the layout for this fragment
         View ViewDividedCoupleExpenseFragment = inflater.inflate(R.layout.fragment_view_divided_couple_expense, container, false);
         intializeUiComponents(ViewDividedCoupleExpenseFragment);
-
-        btnViewExpense.setOnClickListener(new View.OnClickListener() {
+        spinnerSelectDateRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 sUserSelectedDateRange = spinnerSelectDateRange.getSelectedItem().toString().trim();
                 setExpenseSummary();
                 loadCoupleExpenseDetailsFromDbforOne();
                 loadCoupleExpenseDetailsFromDbforTwo();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
         return ViewDividedCoupleExpenseFragment;
@@ -150,6 +157,9 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
                     }
                     tvDifference.setVisibility(View.VISIBLE);
                     tvDifference.setText(Html.fromHtml("Difference Rs.<b> " + new DecimalFormat("##.##").format(totalDifference)+"</b>") );
+                    totalToBePaid = totalDifference/dividebyTwo;
+                    tvToBePaid.setVisibility(View.VISIBLE);
+                    tvToBePaid.setText(Html.fromHtml("To be paid Rs.<b> " + new DecimalFormat("##.##").format(totalToBePaid)+"</b>") );
                     listViewPaidByTwo.setAdapter(expenseListAdapter);
                     expenseListAdapter.notifyDataSetChanged();
                 }
@@ -254,7 +264,7 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
         tvPaidByTwoTotal = (TextView) viewDividedCoupleExpenseFragment.findViewById(R.id.tvPaidByTwoTotal);
         expenseSummary = (TextView) viewDividedCoupleExpenseFragment.findViewById(R.id.expenseSummary);
         tvDifference = (TextView) viewDividedCoupleExpenseFragment.findViewById(R.id.tvDifference);
-        btnViewExpense = (Button) viewDividedCoupleExpenseFragment.findViewById(R.id.btnViewExpense);
+        tvToBePaid = (TextView) viewDividedCoupleExpenseFragment.findViewById(R.id.tvToBePaid);
         listViewPaidByOne = (ListView) viewDividedCoupleExpenseFragment.findViewById(R.id.listViewPaidByOne);
         listViewPaidByTwo = (ListView) viewDividedCoupleExpenseFragment.findViewById(R.id.listViewPaidByTwo);
 
