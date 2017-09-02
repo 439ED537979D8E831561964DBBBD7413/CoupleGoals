@@ -83,7 +83,17 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
         cardViewExpenseCardList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayExpenseDetailsinSingleActivity();
+                Intent intentViewSingleExpenseDetail = new Intent(context.getApplicationContext(), ViewSingleExpenseDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("expenseId",expenseDetailsList.get(position).getsExpenseId());
+                bundle.putString("expenseAmount",expenseDetailsList.get(position).getsAmount());
+                bundle.putString("expenseNotes",expenseDetailsList.get(position).getsNotes());
+                bundle.putString("expensePaidBy",expenseDetailsList.get(position).getsPaidBy());
+                bundle.putString("expenseWhen",expenseDetailsList.get(position).getsWhen());
+                bundle.putString("expenseImagePath",expenseDetailsList.get(position).getsExpenseImagePath());
+                intentViewSingleExpenseDetail.putExtras(bundle);
+
+                context.startActivity(intentViewSingleExpenseDetail);
             }
         });
         ibDeleteExpense.setOnClickListener(new View.OnClickListener() {
@@ -130,45 +140,37 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
         ibInfoExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                displayExpenseDetailsinSingleActivity();
+                Intent intentViewSingleExpenseDetail = new Intent(context.getApplicationContext(), ViewSingleExpenseDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("expenseId",expenseDetailsList.get(position).getsExpenseId());
+                bundle.putString("expenseAmount",expenseDetailsList.get(position).getsAmount());
+                bundle.putString("expenseNotes",expenseDetailsList.get(position).getsNotes());
+                bundle.putString("expensePaidBy",expenseDetailsList.get(position).getsPaidBy());
+                bundle.putString("expenseWhen",expenseDetailsList.get(position).getsWhen());
+                bundle.putString("expenseImagePath",expenseDetailsList.get(position).getsExpenseImagePath());
+                intentViewSingleExpenseDetail.putExtras(bundle);
+
+                context.startActivity(intentViewSingleExpenseDetail);
             }
         });
         ibShareExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareExpenseDetails();
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "From Couple goals \n" +
+                        "Couple name:"+DatabaseValues.getCOUPLENAME()+" \n"+
+                        "Amount:"+expenseDetailsList.get(position).getsAmount()+" \n"+
+                        "Notes:"+expenseDetailsList.get(position).getsNotes()+" \n"
+                        +"Paid by:"+expenseDetailsList.get(position).getsPaidBy() +"\n"
+                        +"On:"+expenseDetailsList.get(position).getsWhen() + "\n"
+                        +"Category:"+expenseDetailsList.get(position).getsExpenseCategory());
+
+                sendIntent.setType("text/plain");
+                context.startActivity(sendIntent);
             }
         });
         return listViewItems;
-    }
-
-    private void shareExpenseDetails() {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "From Couple goals \n" +
-                "Couple name:"+DatabaseValues.getCOUPLENAME()+" \n"+
-                "Amount:"+expenseDetails.getsAmount()+" \n"+
-                "Notes:"+expenseDetails.getsNotes()+" \n"
-                +"Paid by:"+expenseDetails.getsPaidBy() +"\n"
-                +"On:"+expenseDetails.getsWhen() + "\n"
-                +"Category:"+expenseDetails.getsExpenseCategory());
-
-        sendIntent.setType("text/plain");
-        context.startActivity(sendIntent);;
-    }
-
-    private void displayExpenseDetailsinSingleActivity() {
-        Intent intentViewSingleExpenseDetail = new Intent(context.getApplicationContext(), ViewSingleExpenseDetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("expenseId",expenseDetails.getsExpenseId());
-        bundle.putString("expenseAmount",expenseDetails.getsAmount());
-        bundle.putString("expenseNotes",expenseDetails.getsNotes());
-        bundle.putString("expensePaidBy",expenseDetails.getsPaidBy());
-        bundle.putString("expenseWhen",expenseDetails.getsWhen());
-        bundle.putString("expenseImagePath",expenseDetails.getsExpenseImagePath());
-        intentViewSingleExpenseDetail.putExtras(bundle);
-
-        context.startActivity(intentViewSingleExpenseDetail);
     }
 
     private void sendNotification(final String expenseAount)
