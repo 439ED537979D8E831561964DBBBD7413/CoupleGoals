@@ -2,6 +2,7 @@ package couplegoals.com.couplegoals.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.os.StrictMode;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -47,7 +49,7 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
     private Activity context;
     private List<Expense> expenseDetailsList;
     Expense expenseDetails;
-
+    AlertDialog.Builder alertDailogForDeletingExpense;
 
     public ExpenseListAdapter(Activity context,List<Expense> expenseDetailsList){
         super(context, R.layout.card_layout_view_couple_expense,expenseDetailsList);
@@ -73,6 +75,9 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
         ImageButton ibInfoExpense = (ImageButton) listViewItems.findViewById(R.id.ibInfoExpense);
         ImageButton ibShareExpense = (ImageButton) listViewItems.findViewById(R.id.ibShareExpense);
 
+        alertDailogForDeletingExpense = new AlertDialog.Builder(context);
+        alertDailogForDeletingExpense.setTitle(R.string.deleteconfirmation);
+        alertDailogForDeletingExpense.setMessage(R.string.deleteexpenseconfirmation);
 
         expenseDetails = expenseDetailsList.get(position);
         textViewExpenseAmount.setText(Html.fromHtml("Rs.<b>" + expenseDetails.getsAmount()+"</b>"));
@@ -99,34 +104,49 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
         ibDeleteExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatabaseReference databaseReferenceDeleteExpense = DatabaseValues.getExpseDetailReference();
-
-                final Query queryDeleteExpense = databaseReferenceDeleteExpense.orderByChild("sExpenseId").equalTo(expenseDetails.getsExpenseId());
-                queryDeleteExpense.addListenerForSingleValueEvent(new ValueEventListener() {
+                alertDailogForDeletingExpense.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        final DatabaseReference databaseReferenceDeleteExpense = DatabaseValues.getExpseDetailReference();
 
-                        for (DataSnapshot  expenseDetailSnapshot : dataSnapshot.getChildren()){
-                            Expense expenseDetails = expenseDetailSnapshot.getValue(Expense.class);
-                            if (expenseDetails.getsCoupleName()!= null){
-                                if (expenseDetails.getsCoupleName().equalsIgnoreCase(DatabaseValues.getCOUPLENAME())){
-                                    databaseReferenceDeleteExpense.child(expenseDetails.getsExpenseId()).removeValue();
+                        final Query queryDeleteExpense = databaseReferenceDeleteExpense.orderByChild("sExpenseId").equalTo(expenseDetailsList.get(position).getsExpenseId());
+                        queryDeleteExpense.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                    Toast.makeText(context,"Deleted",Toast.LENGTH_SHORT)
-                                            .show();
-                                    sendNotification(expenseDetails.getsAmount());
+                                for (DataSnapshot  expenseDetailSnapshot : dataSnapshot.getChildren()){
+                                    Expense expenseDetails = expenseDetailSnapshot.getValue(Expense.class);
+                                    if (expenseDetails.getsCoupleName()!= null){
+                                        if (expenseDetails.getsCoupleName().equalsIgnoreCase(DatabaseValues.getCOUPLENAME())){
+                                            databaseReferenceDeleteExpense.child(expenseDetails.getsExpenseId()).removeValue();
+
+                                            Toast.makeText(context,"Deleted",Toast.LENGTH_SHORT)
+                                                    .show();
+                                            sendNotification(expenseDetails.getsAmount());
+                                        }
+                                    }
                                 }
+
+
                             }
-                        }
 
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
 
                     }
                 });
+                alertDailogForDeletingExpense.setNegativeButton("No",  new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(getActivity(),"You cancelled adding transaction",Toast.LENGTH_LONG).show();
+                    }
+                });
+                AlertDialog alert = alertDailogForDeletingExpense.create();
+                alert.show();
 
             }
         });

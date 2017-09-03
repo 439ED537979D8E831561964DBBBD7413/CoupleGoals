@@ -149,4 +149,6 @@
     <string name="view_expense">View expense</string>
     <string name="date_range">Date range</string>
     <string name="all">All</string>
+    <string name="deleteexpenseconfirmation">Are you sure you want to delete expense?</string>
+    <string name="deleteconfirmation">Confirmation</string>
 </resources>
