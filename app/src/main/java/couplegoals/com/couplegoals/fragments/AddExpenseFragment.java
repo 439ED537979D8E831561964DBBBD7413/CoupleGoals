@@ -1,6 +1,7 @@
 package couplegoals.com.couplegoals.fragments;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -30,6 +31,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -104,6 +106,7 @@ public class AddExpenseFragment extends Fragment {
     double totalExpenseAmount = 0;
 
     ArrayAdapter<String> adapterCategories;
+    ProgressDialog progressBarAddExpense;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -178,6 +181,8 @@ public class AddExpenseFragment extends Fragment {
     }
 
     private void processExpenseDataToDb() {
+        progressBarAddExpense.setMessage("Adding expense....");
+        progressBarAddExpense.show();
         DatabaseReference databaseReference = DatabaseValues.getExpseDetailReference();
         sExpenseId = databaseReference.push().getKey();
         Expense expense = new Expense(sExpenseId,DatabaseValues.getCOUPLENAME(),sExpenseAmount,sExpenseNotes,DatabaseValues.getUserDisplayName(),sDateToday,sExpenseImageFilePath,sExpenseCategory);
@@ -185,20 +190,13 @@ public class AddExpenseFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
+                    progressBarAddExpense.dismiss();
                     Toast.makeText(getActivity(),"Added ",Toast.LENGTH_LONG).show();
                     sendNotification();
                     resetUiComponents();
-//                    fragment = new ViewExpenseFragment();
-//                    if (fragment !=null){
-//                        fragmentTransaction = getFragmentManager().beginTransaction();
-//                        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
-//                        fragmentTransaction.replace(R.id.content_frame,fragment);
-//                        fragmentTransaction.commit();
-//                        fragmentTransaction.addToBackStack("base");
-//
-//                    }
 
                 }else {
+                    progressBarAddExpense.dismiss();
                     Toast.makeText(getActivity(),"Failed to update " + task.getException().getMessage(),Toast.LENGTH_LONG).show();
                 }
 
@@ -280,6 +278,7 @@ public class AddExpenseFragment extends Fragment {
         spExpenseCategory = (Spinner) view.findViewById(R.id.spExpenseCategory);
 
         spExpenseCategory.setAdapter(adapterCategories);
+        progressBarAddExpense = new ProgressDialog(getActivity());
         //Add filters for amount
         setFiltersForAmount();
     }
