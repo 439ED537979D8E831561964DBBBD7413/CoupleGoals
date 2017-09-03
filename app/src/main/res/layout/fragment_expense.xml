@@ -44,6 +44,11 @@
                 android:gravity="center"
                 android:text="@string/view_couple_expense"/>
             <Button
+                android:id="@+id/btnViewCoupleExpense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/view_couple_expense"/>
+            <Button
                 android:id="@+id/btnViewDivided"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

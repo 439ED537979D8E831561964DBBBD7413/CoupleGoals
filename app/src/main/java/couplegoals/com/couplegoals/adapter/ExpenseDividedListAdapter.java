@@ -63,7 +63,7 @@ public class ExpenseDividedListAdapter extends ArrayAdapter<Expense> {
         //TextView textViewExpenseNotes = (TextView) listViewItems.findViewById(R.id.textViewExpenseNotes);
         TextView textViewExpenseDate = (TextView) listViewItems.findViewById(R.id.textViewExpenseDate);
         //TextView textViewExpensePaidBy = (TextView) listViewItems.findViewById(R.id.textViewExpensePaidBy);
-//        CardView cardViewExpenseCardList =(CardView) listViewItems.findViewById(R.id.cardViewExpenseCardList);
+        CardView cardViewExpenseDividedCardList =(CardView) listViewItems.findViewById(R.id.cardViewExpenseDividedCardList);
 //        ImageButton ibDeleteExpense = (ImageButton) listViewItems.findViewById(R.id.ibDeleteExpense);
 //        ImageButton ibEditExpense = (ImageButton) listViewItems.findViewById(R.id.ibEditExpense);
 //        ImageButton ibInfoExpense = (ImageButton) listViewItems.findViewById(R.id.ibInfoExpense);
@@ -76,12 +76,22 @@ public class ExpenseDividedListAdapter extends ArrayAdapter<Expense> {
         textViewExpenseDate.setText(Html.fromHtml("On.<b>"+expenseDetails.getsWhen()+"</b>"));
         //textViewExpensePaidBy.setText(Html.fromHtml("Paid by : <b>" + expenseDetails.getsPaidBy()+"</b>"));
 
-//        cardViewExpenseCardList.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                displayExpenseDetailsinSingleActivity();
-//            }
-//        });
+        cardViewExpenseDividedCardList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentViewSingleExpenseDetail = new Intent(context.getApplicationContext(), ViewSingleExpenseDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("expenseId",expenseDetailsList.get(position).getsExpenseId());
+                bundle.putString("expenseAmount",expenseDetailsList.get(position).getsAmount());
+                bundle.putString("expenseNotes",expenseDetailsList.get(position).getsNotes());
+                bundle.putString("expensePaidBy",expenseDetailsList.get(position).getsPaidBy());
+                bundle.putString("expenseWhen",expenseDetailsList.get(position).getsWhen());
+                bundle.putString("expenseImagePath",expenseDetailsList.get(position).getsExpenseImagePath());
+                intentViewSingleExpenseDetail.putExtras(bundle);
+
+                context.startActivity(intentViewSingleExpenseDetail);
+            }
+        });
 //        ibDeleteExpense.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
