@@ -43,6 +43,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-gcm:11.2.0'
     compile 'com.google.android.gms:play-services-location:11.2.0'
     compile 'com.android.support:customtabs:26.+'
+    compile 'info.hoang8f:fbutton:1.0.5'
     testCompile 'junit:junit:4.12'
 }
 

@@ -48,6 +48,7 @@ import couplegoals.com.couplegoals.adapter.PostListAdapter;
 import couplegoals.com.couplegoals.database.DatabaseValues;
 import couplegoals.com.couplegoals.model.Post;
 import couplegoals.com.couplegoals.utility.Utility;
+import info.hoang8f.widget.FButton;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -60,7 +61,7 @@ public class BaseFragment extends Fragment {
     private static final int SELECT_FILE = 2000;
 
     EditText etTodaysPostMessage;
-    Button btnPost;
+    ImageButton btnPost;
     ImageButton imageBtnTodayPost;
     ImageView imageViewTodayPost;
 
@@ -318,7 +319,7 @@ public class BaseFragment extends Fragment {
     private void initializeUIComponents(View view) {
         listViewTodaysPost = (ListView) view.findViewById(R.id.listViewTodaysPost);
         etTodaysPostMessage = (EditText) view.findViewById(R.id.etTodaysPostMessage);
-        btnPost = (Button) view.findViewById(R.id.btnPost);
+        btnPost = (ImageButton) view.findViewById(R.id.btnPost);
         imageBtnTodayPost = (ImageButton) view.findViewById(R.id.imageBtnTodayPost);
         imageViewTodayPost = (ImageView) view.findViewById(R.id.imageViewTodayPost);
 

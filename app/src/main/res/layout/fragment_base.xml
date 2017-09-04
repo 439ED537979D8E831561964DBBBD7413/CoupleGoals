@@ -36,11 +36,13 @@
                     android:background="@android:color/transparent"
                     android:layout_weight="0.98" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/btnPost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Post" />
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="Post"
+                    android:src="@drawable/ic_action_heat"
+                    android:background="@android:color/transparent"/>
             </LinearLayout>
             <ImageView
                 android:id="@+id/imageViewTodayPost"
