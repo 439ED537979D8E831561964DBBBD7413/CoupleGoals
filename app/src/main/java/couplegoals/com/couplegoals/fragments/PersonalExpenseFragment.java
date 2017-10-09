@@ -19,10 +19,12 @@ import android.text.method.DigitsKeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +39,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import couplegoals.com.couplegoals.R;
 import couplegoals.com.couplegoals.database.DatabaseValues;
@@ -59,6 +63,7 @@ public class PersonalExpenseFragment extends Fragment {
     ImageButton btnPersonalUploadImage;
     ImageView imageViewPersonalExpense;
     EditText etPersonalAmount,etPersonalNotes;
+    Spinner spPersonalExpenseCategory;
 
     Uri imageViewPersonalExpenseUri;
     //.........VARIABLE DECLARATION.......................//
@@ -66,8 +71,9 @@ public class PersonalExpenseFragment extends Fragment {
     String sExpensePersonalAmount,
             sExpensePersonalNotes,
             sExpensePersonalImageFilePath,
-            sExpensePersonalId,sPersonalDateToday;
-
+            sExpensePersonalId,sPersonalDateToday,
+            sExpenseCategory;
+    ArrayAdapter<String> adapterCategories;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -112,6 +118,7 @@ public class PersonalExpenseFragment extends Fragment {
         if (sExpensePersonalNotes.isEmpty() || sExpensePersonalNotes.equalsIgnoreCase(null)){
             sExpensePersonalNotes = getString(R.string.No_notes_label);
         }
+        sExpenseCategory = spPersonalExpenseCategory.getSelectedItem().toString();
     }
     private void saveExpenseImageToDatabase() {
         if (imageViewPersonalExpenseUri!=null) {
@@ -132,7 +139,7 @@ public class PersonalExpenseFragment extends Fragment {
     }
     private void processExpenseDataToDb() {
         sExpensePersonalId = Utility.getUniqueDateTime();
-        Expense expense = new Expense(sExpensePersonalId,DatabaseValues.getCOUPLENAME(),sExpensePersonalAmount,sExpensePersonalNotes,DatabaseValues.getUserDisplayName(),sPersonalDateToday,sExpensePersonalImageFilePath,"to be coded");
+        Expense expense = new Expense(sExpensePersonalId,DatabaseValues.getCOUPLENAME(),sExpensePersonalAmount,sExpensePersonalNotes,DatabaseValues.getUserDisplayName(),sPersonalDateToday,sExpensePersonalImageFilePath,sExpenseCategory);
         DatabaseReference databaseReference = DatabaseValues.getExpensePersonalDetailReference();
         databaseReference.child(sExpensePersonalId).setValue(expense).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -352,6 +359,16 @@ public class PersonalExpenseFragment extends Fragment {
         etPersonalAmount = (EditText) viewPersonalExpenseFragment.findViewById(R.id.etPersonalAmount);
         etPersonalNotes = (EditText) viewPersonalExpenseFragment.findViewById(R.id.etPersonalNotes);
 
+        List<String> categoryName = new ArrayList<>();
+
+        for (int i = 0;i< DatabaseValues.getCategoryList().size();i++){
+            categoryName.add(0,DatabaseValues.getCategoryList().get(i).getsCategoryName());
+        }
+        categoryName.add(0,getString(R.string.defaultcategory));
+        adapterCategories = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,categoryName);
+        spPersonalExpenseCategory = (Spinner) viewPersonalExpenseFragment.findViewById(R.id.spPersonalExpenseCategory);
+
+        spPersonalExpenseCategory.setAdapter(adapterCategories);
         setFiltersForAmount();
         
     }
