@@ -13,6 +13,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.method.DigitsKeyListener;
@@ -24,13 +25,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -39,10 +45,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import couplegoals.com.couplegoals.R;
+import couplegoals.com.couplegoals.adapter.ExpenseListAdapter;
 import couplegoals.com.couplegoals.database.DatabaseValues;
 import couplegoals.com.couplegoals.model.Expense;
 import couplegoals.com.couplegoals.utility.Utility;
@@ -64,6 +72,8 @@ public class PersonalExpenseFragment extends Fragment {
     ImageView imageViewPersonalExpense;
     EditText etPersonalAmount,etPersonalNotes;
     Spinner spPersonalExpenseCategory;
+    ListView listViewCoupleExpense;
+    TextView textViewTotalExpense;
 
     Uri imageViewPersonalExpenseUri;
     //.........VARIABLE DECLARATION.......................//
@@ -74,6 +84,12 @@ public class PersonalExpenseFragment extends Fragment {
             sExpensePersonalId,sPersonalDateToday,
             sExpenseCategory;
     ArrayAdapter<String> adapterCategories;
+
+    //Database related variable
+    DatabaseReference databaseReference;
+    List<Expense> expenseList;
+    double totalExpenseAmount = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,7 +119,55 @@ public class PersonalExpenseFragment extends Fragment {
             }
         });
         //...................END...................................................................//
+        loadPersonalExpenseDetailsFromDb();
         return viewPersonalExpenseFragment;
+    }
+
+    private void loadPersonalExpenseDetailsFromDb() {
+        databaseReference = DatabaseValues.getExpensePersonalDetailReference();
+        databaseReference.keepSynced(true);
+        final ExpenseListAdapter expenseListAdapter = new ExpenseListAdapter(getActivity(),expenseList);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChildren()){
+                    expenseList.clear();
+                    totalExpenseAmount = 0;
+                    for (DataSnapshot  expenseDetailSnapshot : dataSnapshot.getChildren()){
+                        Expense expenseDetails = expenseDetailSnapshot.getValue(Expense.class);
+                        if (expenseDetails.getsCoupleName()!= null){
+                            if (expenseDetails.getsCoupleName().equalsIgnoreCase(DatabaseValues.getCOUPLENAME())){
+                                if (expenseDetails.getsPaidBy().equalsIgnoreCase(DatabaseValues.getUserLoginId())){
+                                    expenseList.add(0, expenseDetails);
+                                    expenseListAdapter.notifyDataSetChanged();
+                                    totalExpenseAmount = totalExpenseAmount + Double.parseDouble(expenseDetails.getsAmount());
+                                }
+                            }
+                        }
+                    }
+                    //Collections.reverse(expenseList);
+                    listViewCoupleExpense.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listViewCoupleExpense.smoothScrollToPosition(0);
+                        }
+                    });
+                    textViewTotalExpense.setText(Html.fromHtml("Total expense Rs.<b> " + new DecimalFormat("##.##").format(totalExpenseAmount)+"</b>") );
+                    listViewCoupleExpense.setAdapter(expenseListAdapter);
+                    expenseListAdapter.notifyDataSetChanged();
+                }
+                else {
+                    Toast.makeText(getActivity(),"No expense exist",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void saveExpenseDetailsToDatabase() {
@@ -139,7 +203,7 @@ public class PersonalExpenseFragment extends Fragment {
     }
     private void processExpenseDataToDb() {
         sExpensePersonalId = Utility.getUniqueDateTime();
-        Expense expense = new Expense(sExpensePersonalId,DatabaseValues.getCOUPLENAME(),sExpensePersonalAmount,sExpensePersonalNotes,DatabaseValues.getUserDisplayName(),sPersonalDateToday,sExpensePersonalImageFilePath,sExpenseCategory);
+        Expense expense = new Expense(sExpensePersonalId,DatabaseValues.getCOUPLENAME(),sExpensePersonalAmount,sExpensePersonalNotes,DatabaseValues.getUserLoginId(),sPersonalDateToday,sExpensePersonalImageFilePath,sExpenseCategory);
         DatabaseReference databaseReference = DatabaseValues.getExpensePersonalDetailReference();
         databaseReference.child(sExpensePersonalId).setValue(expense).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -358,6 +422,9 @@ public class PersonalExpenseFragment extends Fragment {
         imageViewPersonalExpense = (ImageView) viewPersonalExpenseFragment.findViewById(R.id.imageViewPersonalExpense);
         etPersonalAmount = (EditText) viewPersonalExpenseFragment.findViewById(R.id.etPersonalAmount);
         etPersonalNotes = (EditText) viewPersonalExpenseFragment.findViewById(R.id.etPersonalNotes);
+        listViewCoupleExpense = (ListView) viewPersonalExpenseFragment.findViewById(R.id.listViewPersonalExpense);
+        textViewTotalExpense = (TextView) viewPersonalExpenseFragment.findViewById(R.id.textViewTotalExpense);
+        expenseList = new ArrayList<>();
 
         List<String> categoryName = new ArrayList<>();
 
