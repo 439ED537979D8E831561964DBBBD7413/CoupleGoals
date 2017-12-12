@@ -13,11 +13,12 @@ public class Expense {
     String sWhen;
     String sExpenseImagePath;
     String sExpenseCategory;
+    String sDisplayName;
 
     public Expense() {
     }
 
-    public Expense(String sExpenseId,String sCoupleName, String sAmount, String sNotes, String sPaidBy, String sWhen, String sExpenseImagePath, String sExpenseCategory) {
+    public Expense(String sExpenseId,String sCoupleName, String sAmount, String sNotes, String sPaidBy, String sWhen, String sExpenseImagePath, String sExpenseCategory,String sDisplayName) {
         this.sExpenseId = sExpenseId;
         this.sCoupleName = sCoupleName;
         this.sAmount = sAmount;
@@ -26,6 +27,7 @@ public class Expense {
         this.sWhen = sWhen;
         this.sExpenseImagePath = sExpenseImagePath;
         this.sExpenseCategory = sExpenseCategory;
+        this.sDisplayName = sDisplayName;
     }
 
     public String getsExpenseId() {
@@ -59,5 +61,14 @@ public class Expense {
     public String getsExpenseCategory() {
         return sExpenseCategory;
     }
+
+    public String getsDisplayName() {
+        return sDisplayName;
+    }
+
+    public void setsDisplayName(String sDisplayName) {
+        this.sDisplayName = sDisplayName;
+    }
+
 
 }

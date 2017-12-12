@@ -203,7 +203,7 @@ public class PersonalExpenseFragment extends Fragment {
     }
     private void processExpenseDataToDb() {
         sExpensePersonalId = Utility.getUniqueDateTime();
-        Expense expense = new Expense(sExpensePersonalId,DatabaseValues.getCOUPLENAME(),sExpensePersonalAmount,sExpensePersonalNotes,DatabaseValues.getUserLoginId(),sPersonalDateToday,sExpensePersonalImageFilePath,sExpenseCategory);
+        Expense expense = new Expense(sExpensePersonalId,DatabaseValues.getCOUPLENAME(),sExpensePersonalAmount,sExpensePersonalNotes,DatabaseValues.getUserLoginId(),sPersonalDateToday,sExpensePersonalImageFilePath,sExpenseCategory,"PlaceHOlder");
         DatabaseReference databaseReference = DatabaseValues.getExpensePersonalDetailReference();
         databaseReference.child(sExpensePersonalId).setValue(expense).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

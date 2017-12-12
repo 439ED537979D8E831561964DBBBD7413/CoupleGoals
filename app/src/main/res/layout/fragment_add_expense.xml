@@ -67,6 +67,20 @@ tools:context="couplegoals.com.couplegoals.fragments.AddExpenseFragment">
             android:id="@+id/spExpenseCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></Spinner>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Paid by"
+            android:textStyle="bold"/>
+        <Switch
+            android:id="@+id/switchPaidBy"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

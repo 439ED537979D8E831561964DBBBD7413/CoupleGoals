@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -27,12 +28,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,13 +86,14 @@ public class AddExpenseFragment extends Fragment {
     ImageView imageViewExpense;
     EditText etAmount,etNotes;
     Spinner spExpenseCategory;
+    Switch switchPaidBy;
 
     //.........VARIABLE DECLARATION.......................//
 
     String sExpenseAmount,
             sExpenseNotes,
             sExpenseImageFilePath,
-            sExpenseId,sDateToday,sExpenseCategory;
+            sExpenseId,sDateToday,sExpenseCategory,sDisplayName,sPaidBy;
     Uri imageViewExpenseUri;
 
     //.........VARIABLE DECLARATION FOR FRAGMENTS.......................//
@@ -121,6 +125,44 @@ public class AddExpenseFragment extends Fragment {
         //.....................INITIALIZE UI COMPONENTS............................................//
 
         initializeUiComponents(viewAddExpenseFragment);
+
+        //...................END...................................................................//
+
+        //................SWITCH LISTERNER............................................................................
+            switchPaidBy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+                    if (isChecked){
+
+                        if (DatabaseValues.getUserLoginId().equals(DatabaseValues.getYOURMAILID())){
+                            sDisplayName = DatabaseValues.getPARTNERDISPLAYNAME();
+                            sPaidBy = DatabaseValues.getPARTNERMAILID();
+                            switchPaidBy.setText(sDisplayName);
+//                            Toast.makeText(getActivity(), "Paid By " + sPaidBy,
+//                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else if(DatabaseValues.getUserLoginId().equals(DatabaseValues.getPARTNERMAILID())){
+                            sDisplayName = DatabaseValues.getYOURDISPLAYNAME();
+                            sPaidBy = DatabaseValues.getYOURMAILID();
+                            switchPaidBy.setText(sDisplayName);
+                        }
+                    }else {
+//                        Toast.makeText(getActivity(), "The Switch is " + (isChecked ? "on" : "off"),
+//                                Toast.LENGTH_SHORT).show();
+                        if (DatabaseValues.getUserLoginId().equals(DatabaseValues.getYOURMAILID())){
+                            sDisplayName = DatabaseValues.getYOURDISPLAYNAME();
+                            sPaidBy = DatabaseValues.getYOURMAILID();
+                            switchPaidBy.setText(sDisplayName);
+                        }
+                        else if(DatabaseValues.getUserLoginId().equals(DatabaseValues.getPARTNERMAILID())){
+                            sDisplayName = DatabaseValues.getPARTNERDISPLAYNAME();
+                            sPaidBy = DatabaseValues.getPARTNERMAILID();
+                            switchPaidBy.setText(sDisplayName);
+                        }
+                    }
+                }
+            });
 
         //...................END...................................................................//
 
@@ -185,7 +227,7 @@ public class AddExpenseFragment extends Fragment {
         progressBarAddExpense.show();
         DatabaseReference databaseReference = DatabaseValues.getExpseDetailReference();
         sExpenseId = databaseReference.push().getKey();
-        Expense expense = new Expense(sExpenseId,DatabaseValues.getCOUPLENAME(),sExpenseAmount,sExpenseNotes,DatabaseValues.getUserDisplayName(),sDateToday,sExpenseImageFilePath,sExpenseCategory);
+        Expense expense = new Expense(sExpenseId,DatabaseValues.getCOUPLENAME(),sExpenseAmount,sExpenseNotes,sPaidBy,sDateToday,sExpenseImageFilePath,sExpenseCategory,sDisplayName);
         databaseReference.child(sExpenseId).setValue(expense).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -267,6 +309,7 @@ public class AddExpenseFragment extends Fragment {
         listViewCoupleExpense = (ListView) view.findViewById(R.id.listViewCoupleExpense);
         textViewTotalExpense = (TextView) view.findViewById(R.id.textViewTotalExpense);
         expenseList = new ArrayList<>();
+        switchPaidBy = (Switch) view.findViewById(R.id.switchPaidBy);
 
         List<String> categoryName = new ArrayList<>();
 
@@ -281,6 +324,18 @@ public class AddExpenseFragment extends Fragment {
         progressBarAddExpense = new ProgressDialog(getActivity());
         //Add filters for amount
         setFiltersForAmount();
+
+        //Setting Default values
+        if (DatabaseValues.getUserLoginId().equals(DatabaseValues.getYOURMAILID())){
+            sDisplayName = DatabaseValues.getYOURDISPLAYNAME();
+            sPaidBy = DatabaseValues.getYOURMAILID();
+            switchPaidBy.setText(sDisplayName);
+        }
+        else if(DatabaseValues.getUserLoginId().equals(DatabaseValues.getPARTNERMAILID())){
+            sDisplayName = DatabaseValues.getPARTNERDISPLAYNAME();
+            sPaidBy = DatabaseValues.getPARTNERMAILID();
+            switchPaidBy.setText(sDisplayName);
+        }
     }
     private void loadCoupleExpenseDetailsFromDb() {
         databaseReference = DatabaseValues.getExpseDetailReference();

@@ -107,7 +107,7 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
                         Expense expenseDetails = expenseDetailSnapshot.getValue(Expense.class);
                         if (expenseDetails.getsCoupleName()!= null){
                             if (expenseDetails.getsCoupleName().equalsIgnoreCase(DatabaseValues.getCOUPLENAME())){
-                                if (!expenseDetails.getsPaidBy().equalsIgnoreCase(DatabaseValues.getUserDisplayName())){
+                                if (!expenseDetails.getsPaidBy().equalsIgnoreCase(DatabaseValues.getUserLoginId())){
                                     if (sUserSelectedDateRange.equalsIgnoreCase(getString(R.string.all)))
                                     {
                                         expenseListPaidByTwo.add(0, expenseDetails);
@@ -193,7 +193,7 @@ public class ViewDividedCoupleExpenseFragment extends Fragment {
                         Expense expenseDetails = expenseDetailSnapshot.getValue(Expense.class);
                         if (expenseDetails.getsCoupleName()!= null){
                             if (expenseDetails.getsCoupleName().equalsIgnoreCase(DatabaseValues.getCOUPLENAME())){
-                                if (expenseDetails.getsPaidBy().equalsIgnoreCase(DatabaseValues.getUserDisplayName())){
+                                if (expenseDetails.getsPaidBy().equalsIgnoreCase(DatabaseValues.getUserLoginId())){
                                     if (sUserSelectedDateRange.equalsIgnoreCase(getString(R.string.all)))
                                     {
                                         expenseListPaidByOne.add(0, expenseDetails);

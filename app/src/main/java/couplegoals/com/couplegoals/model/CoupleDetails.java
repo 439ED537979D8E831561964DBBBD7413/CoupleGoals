@@ -12,18 +12,22 @@ public class CoupleDetails {
     String sCouplePicturePath;
     String sYourEmailId;
     String sPartnerEmailId;
+    String sYourDisplayName;
+    String sPartnerDisplayName;
 
     public CoupleDetails(){
 
     }
 
-    public CoupleDetails(String sCoupleName, String sYourNumber, String sPartnerNumber, String sCouplePicturePath,String sYourEmailId,String sPartnerEmailId) {
+    public CoupleDetails(String sCoupleName, String sYourNumber, String sPartnerNumber, String sCouplePicturePath,String sYourEmailId,String sPartnerEmailId,String sYourDisplayName,String sPartnerDisplayName) {
         this.sCoupleName = sCoupleName;
         this.sYourNumber = sYourNumber;
         this.sPartnerNumber = sPartnerNumber;
         this.sCouplePicturePath = sCouplePicturePath;
         this.sYourEmailId = sYourEmailId;
         this.sPartnerEmailId = sPartnerEmailId;
+        this.sYourDisplayName = sYourDisplayName;
+        this.sPartnerDisplayName = sPartnerDisplayName;
     }
 
     public String getsYourEmailId() {
@@ -48,5 +52,24 @@ public class CoupleDetails {
 
     public String getsCouplePicturePath() {
         return sCouplePicturePath;
+    }
+
+    public String getsYourDisplayName() {
+        return sYourDisplayName;
+    }
+
+    public void setsYourDisplayName(String sYourDisplayName) {
+        this.sYourDisplayName = sYourDisplayName;
+    }
+
+    public String getsPartnerDisplayName() {
+        return sPartnerDisplayName;
+    }
+
+    public void setsPartnerDisplayName(String sPartnerDisplayName) {
+        this.sPartnerDisplayName = sPartnerDisplayName;
+    }
+    public void setsPartnerEmailId(String sPartnerEmailId) {
+        this.sPartnerEmailId = sPartnerEmailId;
     }
 }

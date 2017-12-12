@@ -50,12 +50,12 @@ public class AddCoupleDetailsActivity extends AppCompatActivity {
 
     //.........UI VARIABLE DECLARATION.......................//
     Button btSaveCoupleDetails;
-    EditText etCoupleName,etYourMobileNo,etPartnerNumber,etPartnerEmailId;
+    EditText etCoupleName,etYourMobileNo,etPartnerNumber,etPartnerEmailId,etYourDisplayName,etPartnerDisplayName;
     Button btnUploadCoupleImage;
     ImageView imageCouple;
 
     //.........USER ENTERED VALUES -VARIABLE DECLARATION.......................//
-    String sCoupleName,sYourNumber,sPartnerNumber,sCoupleImageFilePath,sPartnerEmailId;
+    String sCoupleName,sYourNumber,sPartnerNumber,sCoupleImageFilePath,sPartnerEmailId,sYourDisplayName,sPartnerDisplayName;
     Uri imageCoupleUri;
 
     @Override
@@ -260,6 +260,8 @@ public class AddCoupleDetailsActivity extends AppCompatActivity {
         btnUploadCoupleImage = (Button) findViewById(R.id.btnUploadCoupleImage);
         imageCouple = (ImageView) findViewById(R.id.imageCouple);
         etPartnerEmailId = (EditText) findViewById(R.id.etPartnerEmailId);
+        etYourDisplayName = (EditText) findViewById(R.id.etYourDisplayName);
+        etPartnerDisplayName = (EditText) findViewById(R.id.etPartnerDisplayName);
         setFiltersForYourMobile();
         setFiltersForPartnerMobile();
     }
@@ -337,7 +339,7 @@ public class AddCoupleDetailsActivity extends AppCompatActivity {
 
     private void processCoupleDetailsToDb() {
 
-        CoupleDetails coupleDetails = new CoupleDetails(sCoupleName,sYourNumber,sPartnerNumber,sCoupleImageFilePath,DatabaseValues.getUserLoginId(),sPartnerEmailId);
+        CoupleDetails coupleDetails = new CoupleDetails(sCoupleName,sYourNumber,sPartnerNumber,sCoupleImageFilePath,DatabaseValues.getUserLoginId(),sPartnerEmailId,sYourDisplayName,sPartnerDisplayName);
         DatabaseReference databaseReference = DatabaseValues.getCoupleDetailReference();
         databaseReference.child(sCoupleName).setValue(coupleDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -419,6 +421,16 @@ public class AddCoupleDetailsActivity extends AppCompatActivity {
             isValid = false;
             focusView = etPartnerEmailId;
         }
+        else if (sYourDisplayName.isEmpty()){
+            etYourDisplayName.setError("Your display name is required");
+            isValid = false;
+            focusView = etYourDisplayName;
+        }
+        else if (sPartnerDisplayName.isEmpty()){
+            etPartnerDisplayName.setError("Partner display name is required");
+            isValid = false;
+            focusView = etPartnerDisplayName;
+        }
         return isValid;
     }
 
@@ -427,6 +439,8 @@ public class AddCoupleDetailsActivity extends AppCompatActivity {
         sYourNumber = etYourMobileNo.getText().toString().trim();
         sPartnerNumber = etPartnerNumber.getText().toString().trim();
         sPartnerEmailId = etPartnerEmailId.getText().toString().trim();
+        sYourDisplayName = etYourDisplayName.getText().toString().trim();
+        sPartnerDisplayName = etPartnerDisplayName.getText().toString().trim();
     }
 
 }

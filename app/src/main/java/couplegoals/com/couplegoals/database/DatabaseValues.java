@@ -20,6 +20,28 @@ public class DatabaseValues {
     public static String YOURNAME;
     public static String PARTNERNAME;
     public static String PROFILE_PICTURE_PATH;
+    public static String YOURDISPLAYNAME;
+    public static String YOURMAILID;
+    public static String PARTNERMAILID;
+
+
+    public static String getYOURDISPLAYNAME() {
+        return YOURDISPLAYNAME;
+    }
+
+    public static void setYOURDISPLAYNAME(String YOURDISPLAYNAME) {
+        DatabaseValues.YOURDISPLAYNAME = YOURDISPLAYNAME;
+    }
+
+    public static String getPARTNERDISPLAYNAME() {
+        return PARTNERDISPLAYNAME;
+    }
+
+    public static void setPARTNERDISPLAYNAME(String PARTNERDISPLAYNAME) {
+        DatabaseValues.PARTNERDISPLAYNAME = PARTNERDISPLAYNAME;
+    }
+
+    public static String PARTNERDISPLAYNAME;
     public static List<Category> CATEGORY_LIST;
 
     public static List<Category> getCategoryList() {
@@ -103,4 +125,19 @@ public class DatabaseValues {
         return FirebaseStorage.getInstance().getReference();
     }
 
+    public static String getYOURMAILID() {
+        return YOURMAILID;
+    }
+
+    public static void setYOURMAILID(String YOURMAILID) {
+        DatabaseValues.YOURMAILID = YOURMAILID;
+    }
+
+    public static String getPARTNERMAILID() {
+        return PARTNERMAILID;
+    }
+
+    public static void setPARTNERMAILID(String PARTNERMAILID) {
+        DatabaseValues.PARTNERMAILID = PARTNERMAILID;
+    }
 }

@@ -206,6 +206,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 DatabaseValues.setYOURNAME(coupleDetails1.getsYourEmailId());
                                 DatabaseValues.setPARTNERNAME(coupleDetails1.getsPartnerEmailId());
                                 DatabaseValues.setProfilePicturePath(coupleDetails1.getsCouplePicturePath());
+                                DatabaseValues.setYOURDISPLAYNAME(coupleDetails1.getsYourDisplayName());
+                                DatabaseValues.setPARTNERDISPLAYNAME(coupleDetails1.getsPartnerDisplayName());
+                                DatabaseValues.setYOURMAILID(coupleDetails1.getsYourEmailId());
+                                DatabaseValues.setPARTNERMAILID(coupleDetails1.getsPartnerEmailId());
                                 loadCategoriesFromDb();
                                 sendNotification();
                                 userExist = true;

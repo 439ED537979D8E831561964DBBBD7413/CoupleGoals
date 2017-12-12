@@ -84,7 +84,7 @@ public class ExpenseDividedListAdapter extends ArrayAdapter<Expense> {
                 bundle.putString("expenseId",expenseDetailsList.get(position).getsExpenseId());
                 bundle.putString("expenseAmount",expenseDetailsList.get(position).getsAmount());
                 bundle.putString("expenseNotes",expenseDetailsList.get(position).getsNotes());
-                bundle.putString("expensePaidBy",expenseDetailsList.get(position).getsPaidBy());
+                bundle.putString("expensePaidBy",expenseDetailsList.get(position).getsDisplayName());
                 bundle.putString("expenseWhen",expenseDetailsList.get(position).getsWhen());
                 bundle.putString("expenseImagePath",expenseDetailsList.get(position).getsExpenseImagePath());
                 intentViewSingleExpenseDetail.putExtras(bundle);
@@ -155,7 +155,7 @@ public class ExpenseDividedListAdapter extends ArrayAdapter<Expense> {
                 "Couple name:"+DatabaseValues.getCOUPLENAME()+" \n"+
                 "Amount:"+expenseDetails.getsAmount()+" \n"+
                 "Notes:"+expenseDetails.getsNotes()+" \n"
-                +"Paid by:"+expenseDetails.getsPaidBy() +"\n"
+                +"Paid by:"+expenseDetails.getsDisplayName() +"\n"
                 +"On:"+expenseDetails.getsWhen() + "\n"
                 +"Category:"+expenseDetails.getsExpenseCategory());
 

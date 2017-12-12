@@ -83,7 +83,7 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
         textViewExpenseAmount.setText(Html.fromHtml("Rs.<b>" + expenseDetails.getsAmount()+"</b>"));
         textViewExpenseNotes.setText(Html.fromHtml("Notes.<b>"+expenseDetails.getsNotes()+"</b>"));
         textViewExpenseDate.setText(Html.fromHtml("On.<b>"+expenseDetails.getsWhen()+"</b>"));
-        textViewExpensePaidBy.setText(Html.fromHtml("Paid by : <b>" + expenseDetails.getsPaidBy()+"</b>"));
+        textViewExpensePaidBy.setText(Html.fromHtml("Paid by : <b>" + expenseDetails.getsDisplayName()+"</b>"));
 
         cardViewExpenseCardList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +93,7 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
                 bundle.putString("expenseId",expenseDetailsList.get(position).getsExpenseId());
                 bundle.putString("expenseAmount",expenseDetailsList.get(position).getsAmount());
                 bundle.putString("expenseNotes",expenseDetailsList.get(position).getsNotes());
-                bundle.putString("expensePaidBy",expenseDetailsList.get(position).getsPaidBy());
+                bundle.putString("expensePaidBy",expenseDetailsList.get(position).getsDisplayName());
                 bundle.putString("expenseWhen",expenseDetailsList.get(position).getsWhen());
                 bundle.putString("expenseImagePath",expenseDetailsList.get(position).getsExpenseImagePath());
                 intentViewSingleExpenseDetail.putExtras(bundle);

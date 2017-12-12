@@ -18,6 +18,10 @@
             android:id="@+id/nav_dates"
             android:icon="@drawable/ic_action_date"
             android:title="@string/dates" />
+        <item
+            android:id="@+id/nav_give_take"
+            android:icon="@drawable/ic_action_date"
+            android:title="Given/Taken" />
     </group>
 
     <item android:title="Communicate">
